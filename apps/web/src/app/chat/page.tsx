@@ -94,7 +94,7 @@ export default function ChatList() {
             {chats.map((chat, idx) => (
               <Link
                 key={chat.id}
-                href={`/chat/${chat.otherUser.id === userId ? (chat.user_a_id === userId ? chat.user_b_id : chat.user_a_id) : chat.otherUser.id}`}
+                href={`/chat/${chat.user_a_id === userId ? chat.user_b_id : chat.user_a_id}`}
                 className="block bg-white dark:bg-neutral-900 rounded-2xl p-5 border border-neutral-100 dark:border-neutral-800 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 animate-fade-in"
                 style={{ animationDelay: `${idx * 50}ms` }}
               >
