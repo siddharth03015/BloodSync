@@ -4,16 +4,16 @@
   "private": true,
   "scripts": {
     "dev": "next dev -p 3001",
-    "build": "cd ../../packages/shared && npm run build && cd ../../apps/web && next build",
+    "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.108.2",
     "lucide-react": "^1.21.0",
     "next": "14.2.35",
     "react": "^18",
-    "react-dom": "^18",
-    "shared": "*"
+    "react-dom": "^18"
   },
   "devDependencies": {
     "@types/node": "^20",
