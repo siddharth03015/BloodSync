@@ -129,7 +129,7 @@ export default function Profile() {
                 </div>
                 <div>
                   <h3 className="font-bold text-neutral-900 dark:text-white text-lg">Available to Donate</h3>
-                  <p className="text-sm text-neutral-500 font-medium">Toggle when you're ready to receive requests.</p>
+                  <p className="text-sm text-neutral-500 font-medium">Toggle when you&apos;re ready to receive requests.</p>
                 </div>
               </div>
               <label className="relative inline-flex items-center cursor-pointer ml-16 sm:ml-0">

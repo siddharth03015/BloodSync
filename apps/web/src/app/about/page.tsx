@@ -108,7 +108,7 @@ export default function AboutUsPage() {
                 </div>
                 <h4 className="text-[#990a12] font-semibold mb-4 text-lg">Peer-to-Peer Connect</h4>
                 <p className="text-neutral-500 dark:text-neutral-400 text-[13px] leading-relaxed">
-                  We link up people who provide blood donations with those who need it, so that the donor can witness the positive outcome of their contribution in someone's life.
+                  We link up people who provide blood donations with those who need it, so that the donor can witness the positive outcome of their contribution in someone&apos;s life.
                 </p>
               </div>
 

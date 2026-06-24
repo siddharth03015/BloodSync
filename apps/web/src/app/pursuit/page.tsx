@@ -58,7 +58,7 @@ export default function PursuitPage() {
           <div>
             <h3 className="text-lg sm:text-xl font-bold text-slate-800 dark:text-white mb-2">Bonus Tips before Donation</h3>
             <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
-              Before donating blood, make sure you don't take an aspirin for two days. Learn More about platelet donations. By donating with a friend, you can do twice as much good! Download the bloodLinks app to receive appointment reminders, location finder and much more.
+              Before donating blood, make sure you don&apos;t take an aspirin for two days. Learn More about platelet donations. By donating with a friend, you can do twice as much good! Download the bloodLinks app to receive appointment reminders, location finder and much more.
             </p>
           </div>
 
@@ -74,7 +74,7 @@ export default function PursuitPage() {
           <div>
             <h3 className="text-lg sm:text-xl font-bold text-slate-800 dark:text-white mb-2">Bonus Tips at the Day of Donation:</h3>
             <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed text-justify sm:text-left">
-              Before your appointment, drink 500 ML of water (or other nonalcoholic beverage) or eat a nutritious meal. Avoid fatty foods like hamburgers, french fries, or ice cream. Choose a shirt with sleeves that you can roll up above your elbows. Let us know if you have a favorite arm or vein from which you've received successful blood draws in the past. Donating is also a perfect time to listen to music, talk to other donors, or read.
+              Before your appointment, drink 500 ML of water (or other nonalcoholic beverage) or eat a nutritious meal. Avoid fatty foods like hamburgers, french fries, or ice cream. Choose a shirt with sleeves that you can roll up above your elbows. Let us know if you have a favorite arm or vein from which you&apos;ve received successful blood draws in the past. Donating is also a perfect time to listen to music, talk to other donors, or read.
             </p>
           </div>
 

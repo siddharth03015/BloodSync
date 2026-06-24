@@ -42,9 +42,9 @@ export default function ProcessPage() {
                   1. Registration
                 </h3>
                 <ul className="list-disc pl-5 space-y-1.5 text-sm text-slate-600 dark:text-slate-400 marker:text-slate-400">
-                  <li>We'll sign you in and go over basic eligibility.</li>
-                  <li>You'll be asked to show ID, such as your aadhar card.</li>
-                  <li>You'll read some information about donating blood.</li>
+                  <li>We&apos;ll sign you in and go over basic eligibility.</li>
+                  <li>You&apos;ll be asked to show ID, such as your aadhar card.</li>
+                  <li>You&apos;ll read some information about donating blood.</li>
                 </ul>
               </div>
 
@@ -54,9 +54,9 @@ export default function ProcessPage() {
                   2. Any Medical History
                 </h3>
                 <ul className="list-disc pl-5 space-y-1.5 text-sm text-slate-600 dark:text-slate-400 marker:text-slate-400">
-                  <li>You'll answer a few questions about your health history and places you've traveled, during a private and confidential interview.</li>
-                  <li>You'll tell us about any prescription and/or over the counter medications that may be in your system.</li>
-                  <li>We'll check your temperature, pulse, blood pressure and hemoglobin level.</li>
+                  <li>You&apos;ll answer a few questions about your health history and places you&apos;ve traveled, during a private and confidential interview.</li>
+                  <li>You&apos;ll tell us about any prescription and/or over the counter medications that may be in your system.</li>
+                  <li>We&apos;ll check your temperature, pulse, blood pressure and hemoglobin level.</li>
                 </ul>
               </div>
 
@@ -66,9 +66,9 @@ export default function ProcessPage() {
                   3. Now its Time For Donation
                 </h3>
                 <ul className="list-disc pl-5 space-y-1.5 text-sm text-slate-600 dark:text-slate-400 marker:text-slate-400">
-                  <li>If you're donating whole blood, we'll cleanse an area on your arm and insert a brand new sterile needle for the blood draw. (This feels like a quick pinch and is over in seconds.)</li>
+                  <li>If you&apos;re donating whole blood, we&apos;ll cleanse an area on your arm and insert a brand new sterile needle for the blood draw. (This feels like a quick pinch and is over in seconds.)</li>
                   <li>Other types of donations, such as platelets, are made using an apheresis machine which will be connected to both arms.</li>
-                  <li>A whole blood donation takes about 8-10 minutes, during which you'll be seated comfortably or lying down.</li>
+                  <li>A whole blood donation takes about 8-10 minutes, during which you&apos;ll be seated comfortably or lying down.</li>
                   <li>When approximately a pint of whole blood has been collected, the donation is complete and a staff person will place a bandage on your arm.</li>
                   <li>For platelets, the apheresis machine will collect a small amount of blood, remove the platelets, and return the rest of the blood through your other arm; this cycle will be repeated several times over about 2 hours.</li>
                 </ul>
@@ -80,8 +80,8 @@ export default function ProcessPage() {
                   4. Post Donation
                 </h3>
                 <ul className="list-disc pl-5 space-y-1.5 text-sm text-slate-600 dark:text-slate-400 marker:text-slate-400">
-                  <li>After donating blood, you'll have a snack and something to drink in the refreshment area.</li>
-                  <li>You'll leave after 10-15 minutes and continue your normal routine.</li>
+                  <li>After donating blood, you&apos;ll have a snack and something to drink in the refreshment area.</li>
+                  <li>You&apos;ll leave after 10-15 minutes and continue your normal routine.</li>
                   <li>Enjoy the feeling of accomplishment knowing you are helping to save lives.</li>
                   <li>Take a selfie, or simply share your good deed with friends. It may inspire them to become blood donors.</li>
                 </ul>

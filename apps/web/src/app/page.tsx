@@ -294,7 +294,7 @@ export default function Home() {
         <div className="relative bg-gradient-to-r from-[#8a0303] via-[#a30b0b] to-[#c71616] rounded-3xl p-10 lg:p-12 shadow-2xl overflow-hidden flex flex-col lg:flex-row items-center justify-between gap-12 text-white">
           
           {/* Background Quote Mark */}
-          <div className="absolute top-4 left-6 text-[180px] leading-none text-white/10 font-serif pointer-events-none select-none">"</div>
+          <div className="absolute top-4 left-6 text-[180px] leading-none text-white/10 font-serif pointer-events-none select-none">&ldquo;</div>
 
           {/* Quote Area */}
           <div className="relative z-10 flex-1 max-w-2xl pl-10">
