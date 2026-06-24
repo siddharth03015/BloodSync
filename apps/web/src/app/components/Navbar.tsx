@@ -50,10 +50,10 @@ export default function Navbar() {
   };
 
   const navLinks = [
-    { href: '/search', label: 'Find Donors' },
-    { href: '/blood-banks', label: 'Blood Banks' },
-    { href: '/camps', label: 'Camps' },
-    { href: '/request', label: 'Request Blood' },
+    { href: '/search', label: 'Find Donors', activeClass: 'bg-red-600 text-white shadow-md shadow-red-500/20' },
+    { href: '/blood-banks', label: 'Blood Banks', activeClass: 'bg-indigo-600 text-white shadow-md shadow-indigo-500/20' },
+    { href: '/camps', label: 'Camps', activeClass: 'bg-emerald-600 text-white shadow-md shadow-emerald-500/20' },
+    { href: '/request', label: 'Request Blood', activeClass: 'bg-red-900 text-white shadow-md shadow-red-900/20' },
   ];
 
   const isActive = (href: string) => pathname === href;
@@ -109,7 +109,7 @@ export default function Navbar() {
                 href={link.href}
                 className={`px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200 ${
                   isActive(link.href)
-                    ? 'bg-red-50 text-red-600 dark:bg-red-500/10 dark:text-red-400'
+                    ? link.activeClass
                     : 'text-neutral-600 hover:text-neutral-900 hover:bg-neutral-100 dark:text-neutral-400 dark:hover:text-white dark:hover:bg-neutral-800'
                 }`}
               >
@@ -242,10 +242,10 @@ export default function Navbar() {
                 key={link.href}
                 href={link.href}
                 onClick={() => setMenuOpen(false)}
-                className={`block px-4 py-3 rounded-xl text-sm font-semibold transition-all ${
+                className={`block px-4 py-3 rounded-xl text-base font-semibold transition-all ${
                   isActive(link.href)
-                    ? 'bg-red-50 text-red-600 dark:bg-red-500/10 dark:text-red-400'
-                    : 'text-neutral-600 hover:bg-neutral-100 dark:text-neutral-400 dark:hover:bg-neutral-800'
+                    ? link.activeClass
+                    : 'text-neutral-600 hover:bg-neutral-100 dark:text-neutral-300 dark:hover:bg-neutral-800'
                 }`}
               >
                 {link.label}

@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { supabase, getCanDonateTo, type BloodGroup } from 'shared';
 import { useRouter } from 'next/navigation';
-import { MapPin, Search, Droplet, Clock, CheckCircle2, Navigation } from 'lucide-react';
+import { MapPin, Search, Navigation, Droplet, Shield, Clock, Lock, Building2 } from 'lucide-react';
 import CityAutocomplete from '../components/CityAutocomplete';
 
 export default function SearchDonors() {
@@ -19,7 +19,7 @@ export default function SearchDonors() {
     setLoading(true);
     let lat = null;
     let lng = null;
-    const radius = 50000; // 50km default
+    const radius = 50000;
 
     if (useLocation && navigator.geolocation) {
       try {
@@ -35,7 +35,6 @@ export default function SearchDonors() {
       }
     }
 
-    // If not using location and no city entered, prompt the user
     if (!useLocation && !city.trim()) {
       alert('Please enter a city name to search for donors.');
       setLoading(false);
@@ -52,196 +51,213 @@ export default function SearchDonors() {
 
     setLoading(false);
     setSearched(true);
-    if (error) {
-      alert(error.message);
-    } else {
-      setResults(data || []);
-    }
-  };
-
-  const handleRequest = (donorId: string) => {
-    router.push(`/chat/${donorId}`);
+    if (error) alert(error.message);
+    else setResults(data || []);
   };
 
   return (
-    <div className="font-sans selection:bg-rose-500/30">
+    <div className="min-h-screen bg-[#fcfafb] dark:bg-neutral-950 font-sans text-neutral-900 dark:text-white">
       {/* Hero Section */}
-      <div className="relative overflow-hidden bg-gradient-to-b from-rose-600 to-rose-900 text-white py-20 px-6 sm:px-12">
-        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
-        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-transparent via-black/20 to-black/60 pointer-events-none"></div>
-        
-        <div className="relative max-w-5xl mx-auto text-center space-y-6">
-          <div className="inline-flex items-center justify-center p-3 bg-white/10 backdrop-blur-md rounded-2xl mb-2 border border-white/20 shadow-xl">
-            <Droplet className="w-8 h-8 text-rose-200" fill="currentColor" />
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-12 lg:pt-24 lg:pb-16 relative">
+        <div className="flex flex-col lg:flex-row items-center justify-between gap-12">
+          
+          {/* Left Hero Content */}
+          <div className="flex-1 text-left relative z-10">
+            {/* Badge */}
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-white dark:bg-neutral-800 rounded-full border border-red-100 dark:border-red-900 shadow-sm mb-6">
+              <span className="relative flex h-2 w-2 ml-1">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+              </span>
+              <span className="text-sm font-bold text-red-600 dark:text-red-400">Live Donor Network Across India</span>
+            </div>
+
+            {/* Title */}
+            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black tracking-tight leading-[1.1] text-slate-800 dark:text-white mb-6">
+              Find a <span className="text-red-600 dark:text-red-500">Hero</span> <br/>
+              Near You <span className="inline-block text-red-600 animate-pulse-soft">❤</span>
+            </h1>
+
+            {/* Subtitle */}
+            <p className="text-lg text-slate-500 dark:text-neutral-400 max-w-lg leading-relaxed font-medium">
+              Connect with verified blood donors in your area in seconds. Every drop counts.
+            </p>
           </div>
-          <h1 className="text-5xl sm:text-6xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white to-rose-200">
-            Find a Hero Near You
-          </h1>
-          <p className="text-lg sm:text-xl text-rose-100/90 max-w-2xl mx-auto font-medium">
-            Search our network of verified blood donors. Every drop counts, and help is closer than you think.
-          </p>
+
+          {/* Right Hero Graphic */}
+          <div className="flex-1 relative w-full h-[400px] flex items-center justify-center">
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-red-100/50 dark:bg-red-900/10 rounded-full blur-[80px]"></div>
+            
+            {/* Central Drop */}
+            <div className="relative z-10 animate-float drop-shadow-2xl">
+              <svg width="240" height="280" viewBox="0 0 200 260" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <radialGradient id="dropGradientHero" cx="30%" cy="30%" r="70%">
+                    <stop offset="0%" stopColor="#ff4b4b" />
+                    <stop offset="40%" stopColor="#dc2626" />
+                    <stop offset="100%" stopColor="#7f1d1d" />
+                  </radialGradient>
+                  <linearGradient id="glossGradientHero" x1="20%" y1="0%" x2="50%" y2="80%">
+                    <stop offset="0%" stopColor="white" stopOpacity="0.6" />
+                    <stop offset="100%" stopColor="white" stopOpacity="0" />
+                  </linearGradient>
+                </defs>
+                <path d="M100 10 C100 10, 20 130, 20 190 A80 80 0 0 0 180 190 C180 130, 100 10, 100 10 Z" fill="url(#dropGradientHero)" />
+                <path d="M100 20 C100 20, 35 125, 35 180 A65 70 0 0 0 80 245 C95 245, 95 20, 95 20 Z" fill="url(#glossGradientHero)" />
+                <path d="M100 180 C100 180, 75 155, 75 140 A15 15 0 0 1 100 125 A15 15 0 0 1 125 140 C125 155, 100 180, 100 180 Z" fill="white" className="drop-shadow-md" />
+              </svg>
+            </div>
+            
+            {/* Hands framing the drop (SVG representation) */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[40%] w-[380px] h-[280px] opacity-80 mix-blend-multiply dark:mix-blend-screen pointer-events-none">
+              <svg viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+                {/* Left Hand Silhouette */}
+                <path d="M 50 250 C 70 200, 120 160, 160 180 C 180 190, 190 220, 170 250 C 140 290, 90 290, 50 250 Z" fill="#fca5a5" opacity="0.4" />
+                {/* Right Hand Silhouette */}
+                <path d="M 350 250 C 330 200, 280 160, 240 180 C 220 190, 210 220, 230 250 C 260 290, 310 290, 350 250 Z" fill="#fca5a5" opacity="0.4" />
+              </svg>
+            </div>
+            
+            {/* Floating medical icons */}
+            <div className="absolute top-12 left-12 w-10 h-10 bg-white dark:bg-neutral-800 rounded-full shadow-lg flex items-center justify-center text-red-500 animate-[float_3s_ease-in-out_infinite_0s]">
+              <Droplet className="w-5 h-5" />
+            </div>
+            <div className="absolute top-24 right-16 w-12 h-12 bg-white dark:bg-neutral-800 rounded-full shadow-lg flex items-center justify-center text-red-500 animate-[float_4s_ease-in-out_infinite_1s]">
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 13l2 2 4-4" /></svg>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div className="max-w-6xl mx-auto px-6 pb-24 -mt-10 relative z-10">
-        {/* Search Panel */}
-        <div className="bg-white dark:bg-neutral-900 p-6 sm:p-8 rounded-3xl shadow-2xl shadow-rose-900/5 dark:shadow-black/40 border border-neutral-100 dark:border-neutral-800 backdrop-blur-xl mb-12">
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-end">
-            
-            <div className="md:col-span-3 space-y-2">
-              <label className="text-sm font-semibold text-neutral-600 dark:text-neutral-400 flex items-center gap-2">
-                <Droplet className="w-4 h-4 text-rose-500" /> Blood Group
-              </label>
-              <div className="relative">
-                <select 
-                  value={bloodGroup} 
-                  onChange={(e) => setBloodGroup(e.target.value)} 
-                  className="w-full appearance-none bg-neutral-50 dark:bg-neutral-950 border border-neutral-200 dark:border-neutral-800 text-neutral-900 dark:text-neutral-100 rounded-xl px-4 py-3.5 focus:outline-none focus:ring-2 focus:ring-rose-500/50 focus:border-rose-500 transition-all font-medium cursor-pointer"
-                >
-                  <option value="">Any Blood Group</option>
-                  {['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'].map(bg => (
-                    <option key={bg} value={bg}>{bg}</option>
-                  ))}
-                </select>
-                <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-neutral-400">
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
-                </div>
-              </div>
+      {/* Main Content Area */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20 relative z-20">
+        
+        {/* Horizontal Search Bar Component */}
+        <div className="bg-white dark:bg-neutral-900 rounded-3xl p-3 sm:p-4 shadow-xl shadow-red-900/5 border border-red-50 dark:border-neutral-800 flex flex-col md:flex-row items-center gap-4 relative -mt-8 mb-8">
+          
+          <div className="flex-1 w-full flex flex-col px-4">
+            <span className="text-[11px] uppercase tracking-wider font-bold text-neutral-400 mb-1">Blood Group</span>
+            <div className="flex items-center">
+              <Droplet className="w-5 h-5 text-red-500 mr-2" />
+              <select 
+                value={bloodGroup} 
+                onChange={(e) => setBloodGroup(e.target.value)} 
+                className="w-full bg-transparent text-neutral-900 dark:text-white font-bold text-lg focus:outline-none cursor-pointer"
+              >
+                <option value="">Any Blood Group</option>
+                {['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'].map(bg => (
+                  <option key={bg} value={bg}>{bg}</option>
+                ))}
+              </select>
             </div>
-            
-            <div className="md:col-span-5 space-y-2">
-              <label className="text-sm font-semibold text-neutral-600 dark:text-neutral-400 flex items-center gap-2">
-                <MapPin className="w-4 h-4 text-rose-500" /> City <span className="text-rose-500">*</span>
-              </label>
+          </div>
+
+          <div className="hidden md:block w-px h-12 bg-neutral-100 dark:bg-neutral-800"></div>
+
+          <div className="flex-1 w-full flex flex-col px-4">
+            <span className="text-[11px] uppercase tracking-wider font-bold text-neutral-400 mb-1">Location</span>
+            <div className="flex items-center">
               <CityAutocomplete
                 value={city}
                 onChange={setCity}
-                placeholder="Type city name... e.g. Mumbai, Delhi, Bangalore"
-                className="w-full bg-neutral-50 dark:bg-neutral-950 border border-neutral-200 dark:border-neutral-800 text-neutral-900 dark:text-neutral-100 rounded-xl px-4 py-3.5 focus:outline-none focus:ring-2 focus:ring-rose-500/50 focus:border-rose-500 transition-all font-medium placeholder-neutral-400"
+                placeholder="Search city, area..."
+                className="w-full bg-transparent text-neutral-900 dark:text-white font-bold text-lg focus:outline-none placeholder-neutral-300"
               />
             </div>
-
-            <div className="md:col-span-4 flex gap-3 h-[52px]">
-              <button 
-                onClick={() => handleSearch(false)} 
-                disabled={loading}
-                className="flex-1 bg-gradient-to-r from-rose-600 to-rose-500 hover:from-rose-500 hover:to-rose-400 text-white rounded-xl font-bold flex items-center justify-center gap-2 transition-all transform active:scale-[0.98] shadow-lg shadow-rose-500/25 disabled:opacity-70"
-              >
-                {loading ? <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div> : <><Search className="w-5 h-5" /> Search</>}
-              </button>
-              
-              <button 
-                onClick={() => handleSearch(true)} 
-                disabled={loading}
-                title="Search Near Me (GPS)"
-                className="px-5 bg-neutral-100 dark:bg-neutral-800 hover:bg-neutral-200 dark:hover:bg-neutral-700 text-neutral-700 dark:text-neutral-300 rounded-xl font-semibold flex items-center justify-center transition-all transform active:scale-[0.98] border border-neutral-200 dark:border-neutral-700 disabled:opacity-70"
-              >
-                <Navigation className="w-5 h-5" />
-              </button>
-            </div>
           </div>
-          <p className="text-xs text-neutral-400 mt-3 flex items-center gap-1.5">
-            <MapPin className="w-3 h-3" /> Enter a city name or use the GPS button to find donors near your current location.
-          </p>
+
+          <div className="hidden md:block w-px h-12 bg-neutral-100 dark:bg-neutral-800"></div>
+
+          <button onClick={() => handleSearch(true)} className="p-3 text-neutral-400 hover:text-red-500 transition-colors bg-neutral-50 dark:bg-neutral-800 rounded-xl" title="Use GPS">
+            <Navigation className="w-5 h-5" />
+          </button>
+
+          <button 
+            onClick={() => handleSearch(false)}
+            disabled={loading}
+            className="w-full md:w-auto px-8 py-4 bg-red-600 hover:bg-red-700 text-white rounded-2xl font-bold flex items-center justify-center gap-2 shadow-lg shadow-red-500/30 transition-all active:scale-[0.98] disabled:opacity-70"
+          >
+            {loading ? <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div> : <><Search className="w-5 h-5" /> Find Donors</>}
+          </button>
+
+        </div>
+
+        {/* 4 Feature Items */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-red-50 dark:bg-red-500/10 rounded-xl flex items-center justify-center text-red-500"><Shield className="w-5 h-5" /></div>
+            <div><div className="text-sm font-bold text-neutral-900 dark:text-white">Verified Donors</div><div className="text-xs text-neutral-400">Safe & Trusted</div></div>
+          </div>
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-red-50 dark:bg-red-500/10 rounded-xl flex items-center justify-center text-red-500"><Search className="w-5 h-5" /></div>
+            <div><div className="text-sm font-bold text-neutral-900 dark:text-white">Real-time Search</div><div className="text-xs text-neutral-400">Live donor updates</div></div>
+          </div>
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-red-50 dark:bg-red-500/10 rounded-xl flex items-center justify-center text-red-500"><MapPin className="w-5 h-5" /></div>
+            <div><div className="text-sm font-bold text-neutral-900 dark:text-white">Nearby Donors</div><div className="text-xs text-neutral-400">Close to you</div></div>
+          </div>
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-red-50 dark:bg-red-500/10 rounded-xl flex items-center justify-center text-red-500"><Lock className="w-5 h-5" /></div>
+            <div><div className="text-sm font-bold text-neutral-900 dark:text-white">100% Secure</div><div className="text-xs text-neutral-400">Your data is safe</div></div>
+          </div>
+        </div>
+
+        {/* Stats Banner */}
+        <div className="bg-gradient-to-r from-[#5e0a0a] via-[#851111] to-[#5e0a0a] rounded-3xl p-8 mb-16 shadow-xl flex flex-wrap items-center justify-between gap-6">
+          <div className="flex items-center gap-4 text-white">
+            <div className="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center"><Droplet className="w-6 h-6" fill="currentColor" /></div>
+            <div><div className="text-2xl font-black">2.5M+</div><div className="text-sm text-white/80">Registered Donors</div></div>
+          </div>
+          <div className="flex items-center gap-4 text-white">
+            <div className="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center"><svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 13l2 2 4-4" /></svg></div>
+            <div><div className="text-2xl font-black">8.7L+</div><div className="text-sm text-white/80">Lives Saved</div></div>
+          </div>
+          <div className="flex items-center gap-4 text-white">
+            <div className="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center"><MapPin className="w-6 h-6" /></div>
+            <div><div className="text-2xl font-black">28,000+</div><div className="text-sm text-white/80">Cities Covered</div></div>
+          </div>
+          <div className="flex items-center gap-4 text-white">
+            <div className="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center"><Building2 className="w-6 h-6" /></div>
+            <div><div className="text-2xl font-black">3.2K+</div><div className="text-sm text-white/80">Blood Banks</div></div>
+          </div>
         </div>
 
         {/* Results Section */}
-        {loading ? (
-          <div className="flex flex-col items-center justify-center py-20 space-y-4">
-            <div className="relative w-16 h-16">
-              <div className="absolute inset-0 rounded-full border-4 border-rose-100 dark:border-rose-900/30"></div>
-              <div className="absolute inset-0 rounded-full border-4 border-rose-500 border-t-transparent animate-spin"></div>
-            </div>
-            <p className="text-neutral-500 font-medium animate-pulse">Finding matching donors...</p>
-          </div>
-        ) : searched && results.length === 0 ? (
-          <div className="text-center py-24 bg-white/50 dark:bg-neutral-900/50 rounded-3xl border border-neutral-100 dark:border-neutral-800 backdrop-blur-sm">
-            <div className="inline-flex bg-neutral-100 dark:bg-neutral-800 p-4 rounded-full mb-4">
-              <Search className="w-8 h-8 text-neutral-400" />
-            </div>
-            <h3 className="text-2xl font-bold text-neutral-800 dark:text-neutral-200 mb-2">No donors found</h3>
-            <p className="text-neutral-500 max-w-md mx-auto">We couldn&apos;t find any donors matching your criteria in <strong>{city}</strong>. Try a nearby city or a different blood group.</p>
-          </div>
-        ) : searched ? (
-          <>
-            <div className="mb-6 flex items-center justify-between">
-              <p className="text-sm text-neutral-500 font-medium">
-                Showing <span className="text-neutral-900 dark:text-white font-bold">{results.length}</span> donor{results.length !== 1 ? 's' : ''} 
-                {city && <> in <span className="text-rose-600 dark:text-rose-400 font-bold">{city}</span></>}
-                {bloodGroup && <> with blood group <span className="text-rose-600 dark:text-rose-400 font-bold">{bloodGroup}</span></>}
-              </p>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {results.map((donor, idx) => (
-                <div 
-                  key={donor.id} 
-                  className="group bg-white dark:bg-neutral-900 rounded-2xl p-6 border border-neutral-100 dark:border-neutral-800 shadow-sm hover:shadow-xl hover:shadow-rose-900/5 hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between"
-                  style={{ animationDelay: `${idx * 50}ms`, animationFillMode: 'both' }}
-                >
-                  <div>
-                    <div className="flex justify-between items-start mb-5">
-                      <div>
-                        <h3 className="text-xl font-bold text-neutral-900 dark:text-white group-hover:text-rose-600 dark:group-hover:text-rose-400 transition-colors">{donor.name}</h3>
-                        <div className="flex items-center text-neutral-500 text-sm mt-1 gap-1.5 font-medium">
-                          <MapPin className="w-3.5 h-3.5" /> 
-                          {donor.locality}, {donor.city}
+        {searched && (
+          <div className="animate-fade-in border-t border-neutral-200 dark:border-neutral-800 pt-12">
+            <h2 className="text-2xl font-bold mb-6">Search Results</h2>
+            {results.length === 0 ? (
+              <div className="text-center py-20 bg-white dark:bg-neutral-900 rounded-3xl border border-neutral-100 dark:border-neutral-800">
+                <Search className="w-12 h-12 text-neutral-300 mx-auto mb-4" />
+                <h3 className="text-xl font-bold text-neutral-800 dark:text-neutral-200 mb-2">No donors found</h3>
+                <p className="text-neutral-500">Try adjusting your location or blood group.</p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {results.map((donor) => (
+                  <div key={donor.id} className="bg-white dark:bg-neutral-900 rounded-2xl p-6 border border-neutral-100 dark:border-neutral-800 shadow-sm flex flex-col justify-between">
+                    <div>
+                      <div className="flex justify-between items-start mb-4">
+                        <div>
+                          <h3 className="text-xl font-bold">{donor.name}</h3>
+                          <div className="flex items-center text-neutral-500 text-sm mt-1 gap-1"><MapPin className="w-3.5 h-3.5" /> {donor.locality || donor.city}</div>
                         </div>
+                        <span className="bg-red-50 text-red-600 dark:bg-red-500/10 dark:text-red-400 font-black text-lg px-3 py-1 rounded-lg">{donor.blood_group}</span>
                       </div>
-                      <div className="flex flex-col items-end gap-2">
-                        <span className="bg-gradient-to-br from-rose-500 to-rose-700 text-white font-black text-lg px-3 py-1 rounded-lg shadow-sm">
-                          {donor.blood_group}
-                        </span>
-                        <div className="text-[10px] text-neutral-400 font-semibold uppercase tracking-wider text-right">
-                          Can donate to:<br/>
-                          <span className="text-neutral-600 dark:text-neutral-300 font-bold">{getCanDonateTo(donor.blood_group as BloodGroup).join(', ')}</span>
-                        </div>
-                      </div>
-                    </div>
-                    
-                    <div className="space-y-3 mb-6 bg-neutral-50 dark:bg-neutral-950/50 p-4 rounded-xl border border-neutral-100 dark:border-neutral-800/50">
                       {donor.distance_meters !== null && (
-                        <div className="flex items-center justify-between text-sm">
-                          <span className="text-neutral-500 flex items-center gap-2"><Navigation className="w-4 h-4" /> Distance</span>
-                          <span className="font-semibold text-neutral-700 dark:text-neutral-300">~{(donor.distance_meters / 1000).toFixed(1)} km</span>
-                        </div>
+                        <div className="text-sm text-neutral-500 mb-4">~{(donor.distance_meters / 1000).toFixed(1)} km away</div>
                       )}
-                      
-                      <div className="flex items-center justify-between text-sm">
-                        <span className="text-neutral-500 flex items-center gap-2"><Clock className="w-4 h-4" /> Last Donated</span>
-                        <span className="font-semibold text-neutral-700 dark:text-neutral-300">
-                          {donor.last_donated_at ? new Date(donor.last_donated_at).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' }) : 'Never/Unknown'}
-                        </span>
-                      </div>
                     </div>
-                  </div>
-                  
-                  <div className="mt-auto pt-4 border-t border-neutral-100 dark:border-neutral-800 flex justify-between items-center">
-                    {donor.is_available_to_donate ? (
-                      <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-semibold text-xs rounded-full border border-emerald-200 dark:border-emerald-500/20">
-                        <span className="relative flex h-2 w-2">
-                          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                          <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-                        </span>
-                        Available Now
-                      </span>
-                    ) : (
-                      <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-neutral-100 dark:bg-neutral-800 text-neutral-500 font-medium text-xs rounded-full">
-                        Unavailable
-                      </span>
-                    )}
-                    
-                    <button 
-                      onClick={() => handleRequest(donor.id)} 
-                      className="px-5 py-2.5 bg-neutral-900 hover:bg-neutral-800 dark:bg-white dark:hover:bg-neutral-200 text-white dark:text-neutral-900 rounded-xl font-bold text-sm transition-all transform active:scale-95 shadow-md flex items-center gap-2"
-                    >
-                      Request <CheckCircle2 className="w-4 h-4" />
+                    <button onClick={() => router.push(`/chat/${donor.id}`)} className="w-full py-3 bg-neutral-900 hover:bg-neutral-800 dark:bg-white dark:hover:bg-neutral-200 text-white dark:text-neutral-900 rounded-xl font-bold transition-all mt-4">
+                      Request Blood
                     </button>
                   </div>
-                </div>
-              ))}
-            </div>
-          </>
-        ) : null}
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
       </div>
     </div>
   );

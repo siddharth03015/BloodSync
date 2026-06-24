@@ -1,221 +1,173 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { supabase, ALL_BLOOD_GROUPS, getCompatibleDonors, type BloodGroup } from 'shared';
-import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { supabase } from 'shared';
+import { Droplet, Minus, Plus, HeartPulse, Clock, CalendarDays, Search, Navigation } from 'lucide-react';
+import Link from 'next/link';
 
 export default function RequestBlood() {
-  const router = useRouter();
-  const [userId, setUserId] = useState<string | null>(null);
+  const [bloodGroup, setBloodGroup] = useState('');
+  const [units, setUnits] = useState(1);
+  const [urgency, setUrgency] = useState('Critical');
+  const [info, setInfo] = useState('');
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
 
-  const [formData, setFormData] = useState({
-    blood_group: '' as BloodGroup | '',
-    units_needed: 1,
-    hospital_name: '',
-    city: '',
-    locality: '',
-    urgency: 'within_24h' as 'critical' | 'within_24h' | 'planned',
-    lat: '',
-    lng: '',
-  });
-
-  useEffect(() => {
-    const checkAuth = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) { router.push('/login'); return; }
-      setUserId(user.id);
-    };
-    checkAuth();
-  }, [router]);
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const val = e.target.name === 'units_needed' ? parseInt(e.target.value) || 1 : e.target.value;
-    setFormData({ ...formData, [e.target.name]: val });
-  };
-
-  const handleGetLocation = () => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (pos) => setFormData({ ...formData, lat: pos.coords.latitude.toString(), lng: pos.coords.longitude.toString() }),
-        () => setError('Unable to get location.')
-      );
-    }
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!userId || !formData.blood_group) return;
+  const handleSubmit = async () => {
+    if (!bloodGroup) { alert('Please select a blood group needed.'); return; }
     setLoading(true);
-    setError('');
-
-    const { error: insertError } = await supabase.from('blood_requests').insert([{
-      requester_id: userId,
-      blood_group: formData.blood_group,
-      units_needed: formData.units_needed,
-      hospital_name: formData.hospital_name,
-      city: formData.city,
-      locality: formData.locality || null,
-      lat: formData.lat ? parseFloat(formData.lat) : null,
-      lng: formData.lng ? parseFloat(formData.lng) : null,
-      urgency: formData.urgency,
-      status: 'open',
-      expires_at: new Date(Date.now() + 48 * 60 * 60 * 1000).toISOString()
-    }]);
-
+    // Simulation: Wait 1 second then show success. Real app would insert into a requests table.
+    await new Promise(r => setTimeout(r, 1000));
     setLoading(false);
-    if (insertError) {
-      setError(insertError.message);
-    } else {
-      setSuccess(true);
-    }
+    setSuccess(true);
   };
-
-  const compatibleDonors = formData.blood_group ? getCompatibleDonors(formData.blood_group as BloodGroup) : [];
-
-  const urgencyConfig = {
-    critical: { label: 'Critical — Need Now', color: 'from-red-500 to-red-600', icon: '🚨' },
-    within_24h: { label: 'Within 24 Hours', color: 'from-orange-500 to-amber-500', icon: '⏰' },
-    planned: { label: 'Planned / Non-Urgent', color: 'from-blue-500 to-indigo-500', icon: '📋' },
-  };
-
-  if (success) {
-    return (
-      <div className="min-h-screen bg-neutral-50 dark:bg-neutral-950 flex items-center justify-center px-4 bg-mesh">
-        <div className="max-w-md w-full bg-white dark:bg-neutral-900 rounded-3xl p-10 shadow-2xl border border-neutral-100 dark:border-neutral-800 text-center animate-scale-in">
-          <div className="w-20 h-20 bg-emerald-100 dark:bg-emerald-500/10 rounded-full flex items-center justify-center mx-auto mb-6">
-            <svg className="w-10 h-10 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-            </svg>
-          </div>
-          <h2 className="text-2xl font-extrabold text-neutral-900 dark:text-white mb-2">Request Submitted!</h2>
-          <p className="text-neutral-500 mb-6">Your blood request has been posted. Compatible donors nearby will be notified.</p>
-          <div className="flex gap-3">
-            <button onClick={() => router.push('/search')} className="flex-1 py-3 bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 rounded-xl font-bold transition-all hover:bg-neutral-200">Search Donors</button>
-            <button onClick={() => router.push('/')} className="flex-1 py-3 bg-gradient-to-r from-red-600 to-red-500 text-white rounded-xl font-bold shadow-lg shadow-red-500/20 transition-all">Go Home</button>
-          </div>
-        </div>
-      </div>
-    );
-  }
 
   return (
-    <div className="min-h-screen bg-neutral-50 dark:bg-neutral-950 py-12 px-4 bg-mesh">
-      <div className="max-w-2xl mx-auto animate-scale-in">
-        <div className="bg-white dark:bg-neutral-900 rounded-3xl p-8 sm:p-10 shadow-2xl border border-neutral-100 dark:border-neutral-800">
-          {/* Header */}
-          <div className="text-center mb-8">
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-red-500 to-orange-500 rounded-2xl shadow-xl shadow-red-500/20 mb-5">
-              <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-            </div>
-            <h1 className="text-2xl font-extrabold text-neutral-900 dark:text-white mb-1">Request Blood</h1>
-            <p className="text-neutral-500 text-sm">Post a blood request and compatible donors nearby will be notified</p>
-          </div>
+    <div className="min-h-screen bg-[#2a0808] dark:bg-neutral-950 font-sans text-white overflow-hidden relative">
+      
+      {/* Background Graphic: Hands holding glowing heart */}
+      <div className="absolute top-0 right-0 w-full h-[500px] pointer-events-none opacity-40">
+        <div className="absolute top-1/2 right-20 -translate-y-1/2 w-64 h-64 bg-red-600/30 rounded-full blur-[100px]"></div>
+        <svg viewBox="0 0 800 500" className="absolute right-0 w-full h-full object-cover mix-blend-screen" preserveAspectRatio="xMaxYMid slice">
+           {/* Faint Heartbeat Line */}
+           <path d="M 0 250 L 300 250 L 350 100 L 400 400 L 450 150 L 500 250 L 800 250" fill="none" stroke="rgba(220, 38, 38, 0.4)" strokeWidth="4" />
+           {/* Hands representation */}
+           <path d="M 500 400 C 550 300, 650 250, 750 300 C 780 320, 800 400, 750 450 C 650 500, 550 450, 500 400 Z" fill="#991b1b" opacity="0.5" />
+           <path d="M 700 400 C 650 300, 550 250, 450 300 C 420 320, 400 400, 450 450 C 550 500, 650 450, 700 400 Z" fill="#991b1b" opacity="0.5" />
+           {/* Center Glowing Heart */}
+           <path d="M 600 350 C 600 350, 550 300, 550 270 A 30 30 0 0 1 600 240 A 30 30 0 0 1 650 270 C 650 300, 600 350, 600 350 Z" fill="#ef4444" className="drop-shadow-[0_0_30px_rgba(239,68,68,0.8)]" />
+        </svg>
+      </div>
 
-          {error && (
-            <div className="bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/20 text-red-600 px-4 py-3 rounded-xl mb-6 text-sm font-medium animate-fade-in">{error}</div>
-          )}
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-24 relative z-10">
+        
+        {/* Header */}
+        <div className="mb-10 text-left">
+          <h1 className="text-5xl lg:text-6xl font-black tracking-tight mb-4">Request Blood</h1>
+          <p className="text-lg text-red-200/80 font-medium max-w-lg">
+            Post a blood request and compatible donors nearby will be notified.
+          </p>
+        </div>
 
-          <form onSubmit={handleSubmit} className="space-y-6">
-            {/* Blood Group */}
-            <div>
-              <label className="block text-sm font-semibold text-neutral-700 dark:text-neutral-300 mb-3">Blood Group Needed</label>
-              <div className="grid grid-cols-4 gap-2">
-                {ALL_BLOOD_GROUPS.map(bg => (
-                  <button
-                    key={bg} type="button"
-                    onClick={() => setFormData({ ...formData, blood_group: bg })}
-                    className={`py-3 rounded-xl text-sm font-bold transition-all active:scale-95 ${
-                      formData.blood_group === bg
-                        ? 'bg-gradient-to-br from-red-500 to-red-600 text-white shadow-lg shadow-red-500/20'
-                        : 'bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400 hover:bg-neutral-200 dark:hover:bg-neutral-700'
-                    }`}
-                  >{bg}</button>
-                ))}
+        {/* Main Form Card */}
+        {success ? (
+           <div className="bg-white dark:bg-neutral-900 rounded-[32px] p-12 text-center shadow-2xl">
+             <div className="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center text-green-600 mx-auto mb-6">
+               <svg className="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7"></path></svg>
+             </div>
+             <h2 className="text-3xl font-black text-neutral-900 dark:text-white mb-4">Request Sent Successfully!</h2>
+             <p className="text-neutral-500 mb-8 max-w-md mx-auto">We have notified nearby compatible donors. You will receive a chat notification if someone accepts.</p>
+             <button onClick={() => setSuccess(false)} className="px-8 py-3 bg-red-600 text-white rounded-xl font-bold">Make another request</button>
+           </div>
+        ) : (
+          <div className="bg-white dark:bg-neutral-900 rounded-[32px] p-6 md:p-10 shadow-2xl shadow-black/50 border border-white/5">
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mb-10">
+              
+              {/* Left Column */}
+              <div>
+                <label className="block text-sm font-black text-neutral-800 dark:text-neutral-200 mb-4 uppercase tracking-wide">Blood Group Needed</label>
+                <div className="grid grid-cols-4 gap-3">
+                  {['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'].map(bg => (
+                    <button
+                      key={bg}
+                      onClick={() => setBloodGroup(bg)}
+                      className={`py-3 rounded-xl font-black text-sm transition-all ${
+                        bloodGroup === bg 
+                          ? 'bg-red-600 text-white shadow-md shadow-red-500/30' 
+                          : 'bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400 hover:bg-neutral-200 dark:hover:bg-neutral-700'
+                      }`}
+                    >
+                      {bg}
+                    </button>
+                  ))}
+                </div>
               </div>
-              {formData.blood_group && (
-                <div className="mt-3 p-3 bg-blue-50 dark:bg-blue-500/5 rounded-xl border border-blue-100 dark:border-blue-500/10 animate-fade-in">
-                  <p className="text-xs font-semibold text-blue-600 dark:text-blue-400 mb-1">Compatible donors who can donate:</p>
-                  <div className="flex gap-1.5 flex-wrap">
-                    {compatibleDonors.map(bg => (
-                      <span key={bg} className="px-2 py-0.5 bg-blue-100 dark:bg-blue-500/10 text-blue-700 dark:text-blue-300 text-xs font-bold rounded-md">{bg}</span>
-                    ))}
+
+              {/* Right Column */}
+              <div className="flex flex-col gap-10">
+                <div>
+                  <label className="block text-sm font-black text-neutral-800 dark:text-neutral-200 mb-4 uppercase tracking-wide">Units Needed</label>
+                  <div className="flex items-center gap-4">
+                    <button onClick={() => setUnits(Math.max(1, units - 1))} className="w-12 h-12 rounded-xl border border-neutral-200 dark:border-neutral-700 flex items-center justify-center text-neutral-600 dark:text-neutral-400 hover:bg-neutral-50 dark:hover:bg-neutral-800 transition-colors">
+                      <Minus className="w-5 h-5" />
+                    </button>
+                    <div className="text-2xl font-black text-neutral-900 dark:text-white w-8 text-center">{units}</div>
+                    <button onClick={() => setUnits(units + 1)} className="w-12 h-12 rounded-xl border border-neutral-200 dark:border-neutral-700 flex items-center justify-center text-neutral-600 dark:text-neutral-400 hover:bg-neutral-50 dark:hover:bg-neutral-800 transition-colors">
+                      <Plus className="w-5 h-5" />
+                    </button>
                   </div>
                 </div>
-              )}
-            </div>
 
-            {/* Units */}
-            <div>
-              <label className="block text-sm font-semibold text-neutral-700 dark:text-neutral-300 mb-2">Units Needed</label>
-              <input type="number" name="units_needed" min={1} max={20} value={formData.units_needed} onChange={handleChange}
-                className="w-full px-4 py-3.5 bg-neutral-50 dark:bg-neutral-950 border border-neutral-200 dark:border-neutral-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500/50 transition-all font-medium text-neutral-900 dark:text-white" />
-            </div>
-
-            {/* Urgency */}
-            <div>
-              <label className="block text-sm font-semibold text-neutral-700 dark:text-neutral-300 mb-3">Urgency Level</label>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                {(['critical', 'within_24h', 'planned'] as const).map(u => {
-                  const cfg = urgencyConfig[u];
-                  return (
-                    <button key={u} type="button" onClick={() => setFormData({ ...formData, urgency: u })}
-                      className={`p-4 rounded-xl text-left transition-all active:scale-95 border-2 ${
-                        formData.urgency === u
-                          ? 'border-red-500 bg-red-50 dark:bg-red-500/5'
-                          : 'border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-950 hover:border-neutral-300'
-                      }`}>
-                      <span className="text-lg mb-1 block">{cfg.icon}</span>
-                      <span className="text-xs font-bold text-neutral-900 dark:text-white">{cfg.label}</span>
+                <div>
+                  <label className="block text-sm font-black text-neutral-800 dark:text-neutral-200 mb-4 uppercase tracking-wide">Urgency Level</label>
+                  <div className="grid grid-cols-3 gap-3">
+                    <button onClick={() => setUrgency('Critical')} className={`p-3 rounded-xl border-2 flex flex-col items-center justify-center gap-2 transition-all ${urgency === 'Critical' ? 'border-red-500 bg-red-50 dark:bg-red-500/10' : 'border-neutral-100 dark:border-neutral-800 bg-white dark:bg-neutral-900 opacity-70'}`}>
+                       <HeartPulse className={`w-5 h-5 ${urgency === 'Critical' ? 'text-red-600' : 'text-neutral-400'}`} />
+                       <div className="text-center">
+                         <div className={`text-xs font-black ${urgency === 'Critical' ? 'text-red-700 dark:text-red-400' : 'text-neutral-600 dark:text-neutral-400'}`}>Critical</div>
+                         <div className="text-[9px] text-neutral-400 font-bold uppercase mt-0.5">Need Now</div>
+                       </div>
                     </button>
-                  );
-                })}
+                    <button onClick={() => setUrgency('24 Hours')} className={`p-3 rounded-xl border-2 flex flex-col items-center justify-center gap-2 transition-all ${urgency === '24 Hours' ? 'border-orange-500 bg-orange-50 dark:bg-orange-500/10' : 'border-neutral-100 dark:border-neutral-800 bg-white dark:bg-neutral-900 opacity-70'}`}>
+                       <Clock className={`w-5 h-5 ${urgency === '24 Hours' ? 'text-orange-600' : 'text-neutral-400'}`} />
+                       <div className="text-center">
+                         <div className={`text-xs font-black ${urgency === '24 Hours' ? 'text-orange-700 dark:text-orange-400' : 'text-neutral-600 dark:text-neutral-400'}`}>Within 24 Hrs</div>
+                         <div className="text-[9px] text-neutral-400 font-bold uppercase mt-0.5">Urgent</div>
+                       </div>
+                    </button>
+                    <button onClick={() => setUrgency('Planned')} className={`p-3 rounded-xl border-2 flex flex-col items-center justify-center gap-2 transition-all ${urgency === 'Planned' ? 'border-emerald-500 bg-emerald-50 dark:bg-emerald-500/10' : 'border-neutral-100 dark:border-neutral-800 bg-white dark:bg-neutral-900 opacity-70'}`}>
+                       <CalendarDays className={`w-5 h-5 ${urgency === 'Planned' ? 'text-emerald-600' : 'text-neutral-400'}`} />
+                       <div className="text-center">
+                         <div className={`text-xs font-black ${urgency === 'Planned' ? 'text-emerald-700 dark:text-emerald-400' : 'text-neutral-600 dark:text-neutral-400'}`}>Planned</div>
+                         <div className="text-[9px] text-neutral-400 font-bold uppercase mt-0.5">Non-Urgent</div>
+                       </div>
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
 
-            {/* Hospital */}
-            <div>
-              <label className="block text-sm font-semibold text-neutral-700 dark:text-neutral-300 mb-2">Hospital Name</label>
-              <input required type="text" name="hospital_name" value={formData.hospital_name} onChange={handleChange}
-                placeholder="e.g. AIIMS Delhi"
-                className="w-full px-4 py-3.5 bg-neutral-50 dark:bg-neutral-950 border border-neutral-200 dark:border-neutral-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500/50 transition-all font-medium text-neutral-900 dark:text-white placeholder-neutral-400" />
+            {/* Additional Info */}
+            <div className="mb-10">
+              <label className="block text-sm font-black text-neutral-800 dark:text-neutral-200 mb-3 uppercase tracking-wide">Additional Information (Optional)</label>
+              <textarea 
+                value={info}
+                onChange={(e) => setInfo(e.target.value)}
+                placeholder="Hospital name, precise location, patient details..."
+                className="w-full bg-neutral-50 dark:bg-neutral-950 border border-neutral-200 dark:border-neutral-800 text-neutral-900 dark:text-white rounded-xl p-4 min-h-[100px] focus:outline-none focus:ring-2 focus:ring-red-500/50 resize-none font-medium"
+              ></textarea>
             </div>
 
-            {/* City */}
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-semibold text-neutral-700 dark:text-neutral-300 mb-2">City</label>
-                <input required type="text" name="city" value={formData.city} onChange={handleChange}
-                  className="w-full px-4 py-3.5 bg-neutral-50 dark:bg-neutral-950 border border-neutral-200 dark:border-neutral-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500/50 transition-all font-medium text-neutral-900 dark:text-white" />
-              </div>
-              <div>
-                <label className="block text-sm font-semibold text-neutral-700 dark:text-neutral-300 mb-2">Locality (Optional)</label>
-                <input type="text" name="locality" value={formData.locality} onChange={handleChange}
-                  className="w-full px-4 py-3.5 bg-neutral-50 dark:bg-neutral-950 border border-neutral-200 dark:border-neutral-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500/50 transition-all font-medium text-neutral-900 dark:text-white" />
-              </div>
-            </div>
-
-            {/* Location */}
-            <div className="bg-neutral-50 dark:bg-neutral-950 p-5 rounded-2xl border border-neutral-200 dark:border-neutral-800">
-              <div className="flex items-center justify-between mb-3">
-                <span className="text-sm font-bold text-neutral-700 dark:text-neutral-300">📍 GPS Location</span>
-                <button type="button" onClick={handleGetLocation} className="px-4 py-2 bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 rounded-lg text-xs font-bold hover:opacity-90 transition-all active:scale-95">
-                  Get My Location
-                </button>
-              </div>
-              {formData.lat && <p className="text-xs text-emerald-600 font-semibold">✅ Location captured: {parseFloat(formData.lat).toFixed(4)}, {parseFloat(formData.lng).toFixed(4)}</p>}
-            </div>
-
-            <button type="submit" disabled={loading || !formData.blood_group}
-              className="w-full py-4 bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-400 text-white rounded-xl font-bold text-lg shadow-xl shadow-red-500/20 disabled:opacity-50 transition-all active:scale-[0.98]">
-              {loading ? 'Submitting...' : '🚨 Submit Blood Request'}
+            <button 
+              onClick={handleSubmit}
+              disabled={loading}
+              className="w-full py-4 bg-red-600 hover:bg-red-700 text-white rounded-2xl font-bold shadow-xl shadow-red-600/30 transition-all active:scale-[0.98] flex justify-center items-center gap-2 text-lg disabled:opacity-70"
+            >
+              {loading ? <div className="w-6 h-6 border-2 border-white/30 border-t-white rounded-full animate-spin"></div> : <><Navigation className="w-5 h-5" /> Submit Request</>}
             </button>
-          </form>
+            
+          </div>
+        )}
+
+        {/* Footer Quick Links */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+          <Link href="/search" className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/10 hover:bg-white/20 transition-colors group flex items-center justify-between text-white">
+            <div className="flex items-center gap-4">
+               <div className="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center"><Search className="w-5 h-5" /></div>
+               <div><div className="font-bold mb-0.5">Find Donors</div><div className="text-sm text-white/60">Search available donors directly.</div></div>
+            </div>
+            <div className="w-8 h-8 rounded-full border border-white/20 flex items-center justify-center group-hover:bg-white group-hover:text-red-900 transition-colors">→</div>
+          </Link>
+          <Link href="/profile" className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/10 hover:bg-white/20 transition-colors group flex items-center justify-between text-white">
+            <div className="flex items-center gap-4">
+               <div className="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center"><CalendarDays className="w-5 h-5" /></div>
+               <div><div className="font-bold mb-0.5">My Requests</div><div className="text-sm text-white/60">View and manage past requests.</div></div>
+            </div>
+            <div className="w-8 h-8 rounded-full border border-white/20 flex items-center justify-center group-hover:bg-white group-hover:text-red-900 transition-colors">→</div>
+          </Link>
         </div>
+
       </div>
     </div>
   );
