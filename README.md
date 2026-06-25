@@ -51,19 +51,33 @@ This application is built using a modern, scalable tech stack suitable for enter
 
 ---
 
-## 🧠 Technical Highlights (For Interviewers)
+## 🧠 Data Structures & Algorithms (DSA)
 
-1. **Complex SQL RPC for Proximity Search:**
-   Instead of filtering locations on the client, the backend utilizes a custom PL/pgSQL function that takes the user's latitude/longitude and executes a PostGIS query to return only available, matching donors within the specified radius.
-   
-2. **Optimistic UI in Live Chat:**
-   The chat system applies messages to the DOM *before* confirming the database insertion. This masks network latency, making the chat feel instantaneous. If the server request fails, the UI rolls back gracefully and displays an error state.
+1. **Geospatial Proximity Algorithm (R-Tree / GiST Indexing & Haversine Formula)**
+   - **Where:** Database via PostGIS (`search_donors_nearby` RPC).
+   - **How it works:** When a user taps "Near Me", finding donors within a 50km radius utilizes `ST_DWithin` and `ST_Distance`. Under the hood, PostgreSQL uses **GiST (Generalized Search Tree)** indexes (similar to **R-Trees**) to quickly filter out coordinates that are far away using bounding boxes, and then applies a distance formula (like Haversine on a sphere) to calculate precise distances in meters for the remaining results.
 
-3. **Database Security (RLS):**
-   Implemented strict Row-Level Security policies. For example, users can only read messages where their `user_id` is the sender or receiver, preventing unauthorized access to private chats.
+2. **Directed Graph / Hash Map for Blood Compatibility**
+   - **Where:** Shared logic utility (`packages/shared/src/index.ts`).
+   - **How it works:** The blood compatibility logic is structured as a **Hash Map / Dictionary** acting as an **Adjacency List** for a directed graph. Finding who can donate to `A+` is an O(1) lookup in the Hash Map. The `getCanDonateTo` function uses an inverted lookup algorithm (iterating through the graph) to find all recipient nodes that a donor (e.g., `O-`) can donate to.
 
-4. **Monorepo Architecture:**
-   The codebase is structured to scale into a cross-platform product. The database client, shared types, and constants (like blood group matching algorithms) are abstracted into a `packages/shared` folder, ensuring 100% logic sync between the Web App and future Mobile App.
+3. **Substring Matching & Array Slicing (City Autocomplete)**
+   - **Where:** City search component (`CityAutocomplete.tsx`).
+   - **How it works:** To search through 750+ Indian cities, the app uses a **Case-Insensitive Substring Matching** algorithm (`String.includes()`). To prevent DOM rendering bottlenecks, it uses an **Array Slicing** algorithmic approach (`.slice(0, 30)`), guaranteeing that the frontend only processes and renders the top 30 matches.
+
+4. **Eventual Consistency State Management (Optimistic UI)**
+   - **Where:** Real-time chat system.
+   - **How it works:** When a user sends a message, the algorithm updates the local state array immediately (O(1) append) to show the message on the screen, assuming the server request will succeed. If the WebSocket connection drops or fails, it gracefully rolls back the local state.
+
+---
+
+## 🌟 Brilliant Engineering Features (Selling Points)
+
+1. **Offloading Heavy Computation to the Database:** Instead of downloading thousands of user coordinates to the browser to find nearby donors, the project uses a custom **PL/pgSQL Remote Procedure Call (RPC)**. The database handles the heavy geographic math using PostGIS and only returns the final, exact list of matching donors. This is how enterprise apps like Uber or Tinder handle location scaling.
+2. **Shared Monorepo Architecture:** By using Turborepo, the web application and the mobile application share the exact same database types and utility functions (in `packages/shared`). If the blood group matching logic changes, it's updated in one place, and both the website and the iOS/Android apps inherit the update instantly.
+3. **Zero-Latency Chat Experience:** By combining Supabase Realtime WebSockets with Optimistic UI updates, messages appear on the screen instantly without waiting for a server round-trip, making the app feel incredibly responsive (critical for medical emergencies).
+4. **Strict Row-Level Security (RLS):** Because medical data and locations are sensitive, the database is locked down with RLS. The PostgreSQL database itself enforces the rules—meaning even if an attacker bypassed the frontend, the database would mathematically prevent them from reading private chats or editing someone else's donor profile.
+5. **Aesthetic, Frictionless UX:** With dynamic micro-animations, a comprehensive 750+ city dropdown, visual blood-matching badges, and full Dark Mode support built via Tailwind CSS, it provides a premium experience that encourages user trust and engagement.
 
 ---
 
