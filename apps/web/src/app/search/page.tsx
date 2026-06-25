@@ -28,7 +28,7 @@ export default function SearchDonors() {
         });
         
         const totalDonors = donorsData?.length || 0;
-        const uniqueCities = new Set(donorsData?.map(d => d.city).filter(Boolean));
+        const uniqueCities = new Set(donorsData?.map((d: any) => d.city).filter(Boolean));
         
         const { count: banksCount } = await supabase
           .from('blood_banks')
