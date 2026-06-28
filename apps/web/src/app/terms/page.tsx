@@ -1,6 +1,6 @@
 export const metadata = {
-  title: 'Terms of Service | BloodSync',
-  description: 'Terms of Service for BloodSync.',
+  title: 'Terms of Service | B-Sync',
+  description: 'Terms of Service for B-Sync.',
 };
 
 export default function TermsPage() {
@@ -17,7 +17,7 @@ export default function TermsPage() {
               <h2 className="text-xl font-bold mb-3 text-neutral-900 dark:text-white flex items-center gap-2">
                 <span className="text-[#c82333]">1.</span> Introduction
               </h2>
-              <p>Welcome to BloodSync. By accessing our platform, you agree to these terms of service. Our platform connects blood donors, blood banks, and those in need of blood across India to streamline the donation process.</p>
+              <p>Welcome to B-Sync. By accessing our platform, you agree to these terms of service. Our platform connects blood donors, blood banks, and those in need of blood across India to streamline the donation process.</p>
             </section>
 
             <section>
@@ -31,7 +31,7 @@ export default function TermsPage() {
               <h2 className="text-xl font-bold mb-3 text-neutral-900 dark:text-white flex items-center gap-2">
                 <span className="text-[#c82333]">3.</span> User Responsibilities
               </h2>
-              <p>Users must provide accurate and truthful medical information. BloodSync acts only as a facilitator. Final eligibility and blood screening are conducted by the respective blood banks and medical professionals at the time of donation.</p>
+              <p>Users must provide accurate and truthful medical information. B-Sync acts only as a facilitator. Final eligibility and blood screening are conducted by the respective blood banks and medical professionals at the time of donation.</p>
             </section>
 
             <section>
@@ -45,7 +45,7 @@ export default function TermsPage() {
               <h2 className="text-xl font-bold mb-3 text-neutral-900 dark:text-white flex items-center gap-2">
                 <span className="text-[#c82333]">5.</span> Limitation of Liability
               </h2>
-              <p>BloodSync is not a medical provider. We are not liable for any health complications, adverse reactions, or issues arising from the blood donation or transfusion process.</p>
+              <p>B-Sync is not a medical provider. We are not liable for any health complications, adverse reactions, or issues arising from the blood donation or transfusion process.</p>
             </section>
           </div>
         </div>

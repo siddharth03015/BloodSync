@@ -23,59 +23,45 @@ export default function RequestBlood() {
   };
 
   return (
-    <div className="min-h-screen bg-[#2a0808] dark:bg-neutral-950 font-sans text-white overflow-hidden relative">
+    <div className="min-h-screen bg-[#f9f9f9] text-[#333333] pt-20 pb-24">
       
-      {/* Background Graphic: Hands holding glowing heart */}
-      <div className="absolute top-0 right-0 w-full h-[500px] pointer-events-none opacity-40">
-        <div className="absolute top-1/2 right-20 -translate-y-1/2 w-64 h-64 bg-red-600/30 rounded-full blur-[100px]"></div>
-        <svg viewBox="0 0 800 500" className="absolute right-0 w-full h-full object-cover mix-blend-screen" preserveAspectRatio="xMaxYMid slice">
-           {/* Faint Heartbeat Line */}
-           <path d="M 0 250 L 300 250 L 350 100 L 400 400 L 450 150 L 500 250 L 800 250" fill="none" stroke="rgba(220, 38, 38, 0.4)" strokeWidth="4" />
-           {/* Hands representation */}
-           <path d="M 500 400 C 550 300, 650 250, 750 300 C 780 320, 800 400, 750 450 C 650 500, 550 450, 500 400 Z" fill="#991b1b" opacity="0.5" />
-           <path d="M 700 400 C 650 300, 550 250, 450 300 C 420 320, 400 400, 450 450 C 550 500, 650 450, 700 400 Z" fill="#991b1b" opacity="0.5" />
-           {/* Center Glowing Heart */}
-           <path d="M 600 350 C 600 350, 550 300, 550 270 A 30 30 0 0 1 600 240 A 30 30 0 0 1 650 270 C 650 300, 600 350, 600 350 Z" fill="#ef4444" className="drop-shadow-[0_0_30px_rgba(239,68,68,0.8)]" />
-        </svg>
-      </div>
-
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-24 relative z-10">
+      <div className="max-w-[1000px] mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Header */}
-        <div className="mb-10 text-left">
-          <h1 className="text-5xl lg:text-6xl font-black tracking-tight mb-4">Request Blood</h1>
-          <p className="text-lg text-red-200/80 font-medium max-w-lg">
+        <div className="mb-10 text-center">
+          <h1 className="text-4xl font-bold mb-4">Request Blood</h1>
+          <p className="text-[#666666] max-w-lg mx-auto">
             Post a blood request and compatible donors nearby will be notified.
           </p>
         </div>
 
         {/* Main Form Card */}
         {success ? (
-           <div className="bg-white dark:bg-neutral-900 rounded-[32px] p-12 text-center shadow-2xl">
-             <div className="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center text-green-600 mx-auto mb-6">
+           <div className="bg-[#ffffff] rounded-[4px] p-12 text-center border border-[#e0e0e0]">
+             <div className="w-24 h-24 bg-[#e8f5e9] rounded-full flex items-center justify-center text-[#2e7d32] mx-auto mb-6">
                <svg className="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7"></path></svg>
              </div>
-             <h2 className="text-3xl font-black text-neutral-900 dark:text-white mb-4">Request Sent Successfully!</h2>
-             <p className="text-neutral-500 mb-8 max-w-md mx-auto">We have notified nearby compatible donors. You will receive a chat notification if someone accepts.</p>
-             <button onClick={() => setSuccess(false)} className="px-8 py-3 bg-red-600 text-white rounded-xl font-bold">Make another request</button>
+             <h2 className="text-3xl font-bold text-[#333333] mb-4">Request Sent Successfully!</h2>
+             <p className="text-[#666666] mb-8 max-w-md mx-auto">We have notified nearby compatible donors. You will receive a chat notification if someone accepts.</p>
+             <button onClick={() => setSuccess(false)} className="px-8 py-3 bg-[#cc0000] hover:bg-[#aa0000] text-white rounded-[4px] font-bold transition-colors">Make another request</button>
            </div>
         ) : (
-          <div className="bg-white dark:bg-neutral-900 rounded-[32px] p-6 md:p-10 shadow-2xl shadow-black/50 border border-white/5">
+          <div className="bg-[#ffffff] rounded-[4px] p-6 md:p-10 border border-[#e0e0e0]">
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mb-10">
               
               {/* Left Column */}
               <div>
-                <label className="block text-sm font-black text-neutral-800 dark:text-neutral-200 mb-4 uppercase tracking-wide">Blood Group Needed</label>
+                <label className="block text-sm font-bold text-[#333333] mb-4">Blood Group Needed</label>
                 <div className="grid grid-cols-4 gap-3">
                   {['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'].map(bg => (
                     <button
                       key={bg}
                       onClick={() => setBloodGroup(bg)}
-                      className={`py-3 rounded-xl font-black text-sm transition-all ${
+                      className={`py-3 rounded-[4px] font-bold text-sm border transition-colors ${
                         bloodGroup === bg 
-                          ? 'bg-red-600 text-white shadow-md shadow-red-500/30' 
-                          : 'bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400 hover:bg-neutral-200 dark:hover:bg-neutral-700'
+                          ? 'bg-[#cc0000] border-[#cc0000] text-white' 
+                          : 'bg-[#ffffff] border-[#e0e0e0] text-[#333333] hover:bg-[#f4f4f4]'
                       }`}
                     >
                       {bg}
@@ -87,40 +73,40 @@ export default function RequestBlood() {
               {/* Right Column */}
               <div className="flex flex-col gap-10">
                 <div>
-                  <label className="block text-sm font-black text-neutral-800 dark:text-neutral-200 mb-4 uppercase tracking-wide">Units Needed</label>
+                  <label className="block text-sm font-bold text-[#333333] mb-4">Units Needed</label>
                   <div className="flex items-center gap-4">
-                    <button onClick={() => setUnits(Math.max(1, units - 1))} className="w-12 h-12 rounded-xl border border-neutral-200 dark:border-neutral-700 flex items-center justify-center text-neutral-600 dark:text-neutral-400 hover:bg-neutral-50 dark:hover:bg-neutral-800 transition-colors">
+                    <button onClick={() => setUnits(Math.max(1, units - 1))} className="w-12 h-12 rounded-[4px] border border-[#e0e0e0] flex items-center justify-center text-[#333333] hover:bg-[#f4f4f4] transition-colors">
                       <Minus className="w-5 h-5" />
                     </button>
-                    <div className="text-2xl font-black text-neutral-900 dark:text-white w-8 text-center">{units}</div>
-                    <button onClick={() => setUnits(units + 1)} className="w-12 h-12 rounded-xl border border-neutral-200 dark:border-neutral-700 flex items-center justify-center text-neutral-600 dark:text-neutral-400 hover:bg-neutral-50 dark:hover:bg-neutral-800 transition-colors">
+                    <div className="text-2xl font-bold text-[#333333] w-8 text-center">{units}</div>
+                    <button onClick={() => setUnits(units + 1)} className="w-12 h-12 rounded-[4px] border border-[#e0e0e0] flex items-center justify-center text-[#333333] hover:bg-[#f4f4f4] transition-colors">
                       <Plus className="w-5 h-5" />
                     </button>
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-sm font-black text-neutral-800 dark:text-neutral-200 mb-4 uppercase tracking-wide">Urgency Level</label>
+                  <label className="block text-sm font-bold text-[#333333] mb-4">Urgency Level</label>
                   <div className="grid grid-cols-3 gap-3">
-                    <button onClick={() => setUrgency('Critical')} className={`p-3 rounded-xl border-2 flex flex-col items-center justify-center gap-2 transition-all ${urgency === 'Critical' ? 'border-red-500 bg-red-50 dark:bg-red-500/10' : 'border-neutral-100 dark:border-neutral-800 bg-white dark:bg-neutral-900 opacity-70'}`}>
-                       <HeartPulse className={`w-5 h-5 ${urgency === 'Critical' ? 'text-red-600' : 'text-neutral-400'}`} />
+                    <button onClick={() => setUrgency('Critical')} className={`p-3 rounded-[4px] border-2 flex flex-col items-center justify-center gap-2 transition-colors ${urgency === 'Critical' ? 'border-[#cc0000] bg-[#fff0f0]' : 'border-[#e0e0e0] bg-[#ffffff]'}`}>
+                       <HeartPulse className={`w-5 h-5 ${urgency === 'Critical' ? 'text-[#cc0000]' : 'text-[#666666]'}`} />
                        <div className="text-center">
-                         <div className={`text-xs font-black ${urgency === 'Critical' ? 'text-red-700 dark:text-red-400' : 'text-neutral-600 dark:text-neutral-400'}`}>Critical</div>
-                         <div className="text-[9px] text-neutral-400 font-bold uppercase mt-0.5">Need Now</div>
+                         <div className={`text-sm font-bold ${urgency === 'Critical' ? 'text-[#cc0000]' : 'text-[#333333]'}`}>Critical</div>
+                         <div className="text-[10px] text-[#666666] uppercase mt-1">Need Now</div>
                        </div>
                     </button>
-                    <button onClick={() => setUrgency('24 Hours')} className={`p-3 rounded-xl border-2 flex flex-col items-center justify-center gap-2 transition-all ${urgency === '24 Hours' ? 'border-orange-500 bg-orange-50 dark:bg-orange-500/10' : 'border-neutral-100 dark:border-neutral-800 bg-white dark:bg-neutral-900 opacity-70'}`}>
-                       <Clock className={`w-5 h-5 ${urgency === '24 Hours' ? 'text-orange-600' : 'text-neutral-400'}`} />
+                    <button onClick={() => setUrgency('24 Hours')} className={`p-3 rounded-[4px] border-2 flex flex-col items-center justify-center gap-2 transition-colors ${urgency === '24 Hours' ? 'border-[#f57c00] bg-[#fff3e0]' : 'border-[#e0e0e0] bg-[#ffffff]'}`}>
+                       <Clock className={`w-5 h-5 ${urgency === '24 Hours' ? 'text-[#f57c00]' : 'text-[#666666]'}`} />
                        <div className="text-center">
-                         <div className={`text-xs font-black ${urgency === '24 Hours' ? 'text-orange-700 dark:text-orange-400' : 'text-neutral-600 dark:text-neutral-400'}`}>Within 24 Hrs</div>
-                         <div className="text-[9px] text-neutral-400 font-bold uppercase mt-0.5">Urgent</div>
+                         <div className={`text-sm font-bold ${urgency === '24 Hours' ? 'text-[#f57c00]' : 'text-[#333333]'}`}>24 Hrs</div>
+                         <div className="text-[10px] text-[#666666] uppercase mt-1">Urgent</div>
                        </div>
                     </button>
-                    <button onClick={() => setUrgency('Planned')} className={`p-3 rounded-xl border-2 flex flex-col items-center justify-center gap-2 transition-all ${urgency === 'Planned' ? 'border-emerald-500 bg-emerald-50 dark:bg-emerald-500/10' : 'border-neutral-100 dark:border-neutral-800 bg-white dark:bg-neutral-900 opacity-70'}`}>
-                       <CalendarDays className={`w-5 h-5 ${urgency === 'Planned' ? 'text-emerald-600' : 'text-neutral-400'}`} />
+                    <button onClick={() => setUrgency('Planned')} className={`p-3 rounded-[4px] border-2 flex flex-col items-center justify-center gap-2 transition-colors ${urgency === 'Planned' ? 'border-[#388e3c] bg-[#e8f5e9]' : 'border-[#e0e0e0] bg-[#ffffff]'}`}>
+                       <CalendarDays className={`w-5 h-5 ${urgency === 'Planned' ? 'text-[#388e3c]' : 'text-[#666666]'}`} />
                        <div className="text-center">
-                         <div className={`text-xs font-black ${urgency === 'Planned' ? 'text-emerald-700 dark:text-emerald-400' : 'text-neutral-600 dark:text-neutral-400'}`}>Planned</div>
-                         <div className="text-[9px] text-neutral-400 font-bold uppercase mt-0.5">Non-Urgent</div>
+                         <div className={`text-sm font-bold ${urgency === 'Planned' ? 'text-[#388e3c]' : 'text-[#333333]'}`}>Planned</div>
+                         <div className="text-[10px] text-[#666666] uppercase mt-1">Non-Urgent</div>
                        </div>
                     </button>
                   </div>
@@ -130,21 +116,21 @@ export default function RequestBlood() {
 
             {/* Additional Info */}
             <div className="mb-10">
-              <label className="block text-sm font-black text-neutral-800 dark:text-neutral-200 mb-3 uppercase tracking-wide">Additional Information (Optional)</label>
+              <label className="block text-sm font-bold text-[#333333] mb-3">Additional Information (Optional)</label>
               <textarea 
                 value={info}
                 onChange={(e) => setInfo(e.target.value)}
                 placeholder="Hospital name, precise location, patient details..."
-                className="w-full bg-neutral-50 dark:bg-neutral-950 border border-neutral-200 dark:border-neutral-800 text-neutral-900 dark:text-white rounded-xl p-4 min-h-[100px] focus:outline-none focus:ring-2 focus:ring-red-500/50 resize-none font-medium"
+                className="w-full bg-[#ffffff] border border-[#e0e0e0] text-[#333333] rounded-[4px] p-4 min-h-[100px] focus:outline-none focus:border-[#cc0000] resize-y"
               ></textarea>
             </div>
 
             <button 
               onClick={handleSubmit}
               disabled={loading}
-              className="w-full py-4 bg-red-600 hover:bg-red-700 text-white rounded-2xl font-bold shadow-xl shadow-red-600/30 transition-all active:scale-[0.98] flex justify-center items-center gap-2 text-lg disabled:opacity-70"
+              className="w-full py-3 bg-[#cc0000] hover:bg-[#aa0000] text-white rounded-[4px] font-bold transition-colors flex justify-center items-center gap-2 text-lg disabled:opacity-70"
             >
-              {loading ? <div className="w-6 h-6 border-2 border-white/30 border-t-white rounded-full animate-spin"></div> : <><Navigation className="w-5 h-5" /> Submit Request</>}
+              {loading ? 'Submitting...' : <><Navigation className="w-5 h-5" /> Submit Request</>}
             </button>
             
           </div>
@@ -152,19 +138,19 @@ export default function RequestBlood() {
 
         {/* Footer Quick Links */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
-          <Link href="/search" className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/10 hover:bg-white/20 transition-colors group flex items-center justify-between text-white">
+          <Link href="/search" className="bg-[#ffffff] rounded-[4px] p-6 border border-[#e0e0e0] hover:bg-[#f4f4f4] transition-colors flex items-center justify-between text-[#333333]">
             <div className="flex items-center gap-4">
-               <div className="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center"><Search className="w-5 h-5" /></div>
-               <div><div className="font-bold mb-0.5">Find Donors</div><div className="text-sm text-white/60">Search available donors directly.</div></div>
+               <div className="w-12 h-12 bg-[#f4f4f4] rounded-full flex items-center justify-center text-[#cc0000]"><Search className="w-5 h-5" /></div>
+               <div><div className="font-bold mb-0.5">Find Donors</div><div className="text-sm text-[#666666]">Search available donors directly.</div></div>
             </div>
-            <div className="w-8 h-8 rounded-full border border-white/20 flex items-center justify-center group-hover:bg-white group-hover:text-red-900 transition-colors">→</div>
+            <div className="text-[#cc0000]">→</div>
           </Link>
-          <Link href="/profile" className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/10 hover:bg-white/20 transition-colors group flex items-center justify-between text-white">
+          <Link href="/profile" className="bg-[#ffffff] rounded-[4px] p-6 border border-[#e0e0e0] hover:bg-[#f4f4f4] transition-colors flex items-center justify-between text-[#333333]">
             <div className="flex items-center gap-4">
-               <div className="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center"><CalendarDays className="w-5 h-5" /></div>
-               <div><div className="font-bold mb-0.5">My Requests</div><div className="text-sm text-white/60">View and manage past requests.</div></div>
+               <div className="w-12 h-12 bg-[#f4f4f4] rounded-full flex items-center justify-center text-[#cc0000]"><CalendarDays className="w-5 h-5" /></div>
+               <div><div className="font-bold mb-0.5">My Requests</div><div className="text-sm text-[#666666]">View and manage past requests.</div></div>
             </div>
-            <div className="w-8 h-8 rounded-full border border-white/20 flex items-center justify-center group-hover:bg-white group-hover:text-red-900 transition-colors">→</div>
+            <div className="text-[#cc0000]">→</div>
           </Link>
         </div>
 

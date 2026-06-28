@@ -4,17 +4,12 @@ import { useState, useEffect } from 'react';
 import { supabase } from 'shared';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { useTheme } from './ThemeProvider';
-import { Heart } from 'lucide-react';
 
 export default function Navbar() {
   const pathname = usePathname();
   const router = useRouter();
-  const { theme, resolvedTheme, setTheme } = useTheme();
   const [user, setUser] = useState<any>(null);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-  const [themeMenuOpen, setThemeMenuOpen] = useState(false);
 
   useEffect(() => {
     const checkUser = async () => {
@@ -30,221 +25,90 @@ export default function Navbar() {
     return () => subscription.unsubscribe();
   }, []);
 
-  useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 10);
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  // Close theme menu on click outside
-  useEffect(() => {
-    if (!themeMenuOpen) return;
-    const handler = () => setThemeMenuOpen(false);
-    window.addEventListener('click', handler);
-    return () => window.removeEventListener('click', handler);
-  }, [themeMenuOpen]);
-
   const handleLogout = async () => {
     await supabase.auth.signOut();
     setUser(null);
     router.push('/');
   };
 
-  // Note: Static rendering is now used instead of the navLinks array.
   const isActive = (href: string) => pathname === href;
 
-  // Theme icons
-  const SunIcon = () => (
-    <svg className="w-[18px] h-[18px]" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-      <circle cx="12" cy="12" r="5" />
-      <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
-    </svg>
-  );
-
-  const MoonIcon = () => (
-    <svg className="w-[18px] h-[18px]" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-      <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
-    </svg>
-  );
-
-  const MonitorIcon = () => (
-    <svg className="w-[18px] h-[18px]" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-      <rect x="2" y="3" width="20" height="14" rx="2" />
-      <path d="M8 21h8M12 17v4" />
-    </svg>
-  );
-
-  const currentIcon = resolvedTheme === 'dark' ? <MoonIcon /> : <SunIcon />;
-
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-      scrolled 
-        ? 'glass-strong shadow-lg' 
-        : 'bg-transparent'
-    }`}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-white border-b border-[#e0e0e0]">
+      <div className="max-w-[1100px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 group shrink-0">
-            {/* Logo Image */}
-            <div className="w-10 h-10 relative transition-transform group-hover:scale-105 flex items-center justify-center shrink-0">
-              <span className="text-3xl text-red-600 animate-pulse-soft drop-shadow-md">❤</span>
-            </div>
-            
-            {/* Logo Text */}
-            <div className="flex flex-col">
-              <span className="font-bold text-xl xl:text-2xl text-neutral-900 dark:text-white tracking-tight leading-none whitespace-nowrap">
-                BloodSync
-              </span>
-            </div>
+          <Link href="/" className="flex items-center gap-2 shrink-0">
+            <span className="text-3xl text-[#cc0000]">❤</span>
+            <span className="font-bold text-xl text-[#333333] tracking-tight">
+              B-Sync
+            </span>
           </Link>
 
           {/* Desktop Nav */}
-          <div className="hidden xl:flex items-center gap-1">
-            <Link href="/search" className={`px-4 py-2 rounded-xl text-sm font-semibold whitespace-nowrap transition-all duration-200 ${isActive('/search') ? 'bg-red-600 text-white shadow-md shadow-red-500/20' : 'text-neutral-600 hover:text-neutral-900 hover:bg-neutral-100 dark:text-neutral-400 dark:hover:text-white dark:hover:bg-neutral-800'}`}>Find Donors</Link>
-            <Link href="/blood-banks" className={`px-4 py-2 rounded-xl text-sm font-semibold whitespace-nowrap transition-all duration-200 ${isActive('/blood-banks') ? 'bg-indigo-600 text-white shadow-md shadow-indigo-500/20' : 'text-neutral-600 hover:text-neutral-900 hover:bg-neutral-100 dark:text-neutral-400 dark:hover:text-white dark:hover:bg-neutral-800'}`}>Blood Banks</Link>
+          <div className="hidden xl:flex items-center gap-6">
+            <Link href="/search" className={`text-sm font-semibold hover:underline ${isActive('/search') ? 'text-[#cc0000]' : 'text-[#333333]'}`}>Find Donors</Link>
+            <Link href="/blood-banks" className={`text-sm font-semibold hover:underline ${isActive('/blood-banks') ? 'text-[#cc0000]' : 'text-[#333333]'}`}>Blood Banks</Link>
 
             {/* Blood Camps Dropdown */}
             <div className="relative group">
-              <button className="px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-1 whitespace-nowrap text-[#a31526] hover:bg-neutral-100 dark:text-red-500 dark:hover:bg-neutral-800 transition-all">
+              <button className="text-sm font-semibold flex items-center gap-1 text-[#333333] hover:underline">
                 Blood Camps
-                <svg className="w-4 h-4 transition-transform group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" /></svg>
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" /></svg>
               </button>
-              <div className="absolute top-full right-0 mt-1 w-56 bg-white dark:bg-neutral-900 rounded-xl shadow-xl border border-neutral-200 dark:border-neutral-700 py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-                <Link href="/camps" className="block px-4 py-2.5 text-sm font-semibold text-[#002855] hover:text-[#004080] hover:bg-neutral-50 dark:text-neutral-200 dark:hover:text-blue-400 dark:hover:bg-neutral-800">
+              <div className="absolute top-full right-0 mt-1 w-56 bg-white border border-[#e0e0e0] py-2 hidden group-hover:block z-50">
+                <Link href="/camps" className="block px-4 py-2 text-sm font-semibold text-[#333333] hover:underline">
                   Find Blood Camps
                 </Link>
-                <Link href="/camps/register" className="block px-4 py-2.5 text-sm font-semibold text-[#002855] hover:text-[#004080] hover:bg-neutral-50 dark:text-neutral-200 dark:hover:text-blue-400 dark:hover:bg-neutral-800">
+                <Link href="/camps/register" className="block px-4 py-2 text-sm font-semibold text-[#333333] hover:underline">
                   Register Blood Camps
                 </Link>
               </div>
             </div>
 
-            <Link href="/request" className={`px-4 py-2 rounded-xl text-sm font-semibold whitespace-nowrap transition-all duration-200 ${isActive('/request') ? 'bg-red-900 text-white shadow-md shadow-red-900/20' : 'text-neutral-600 hover:text-neutral-900 hover:bg-neutral-100 dark:text-neutral-400 dark:hover:text-white dark:hover:bg-neutral-800'}`}>Request Blood</Link>
+            <Link href="/request" className={`text-sm font-semibold hover:underline ${isActive('/request') ? 'text-[#cc0000]' : 'text-[#333333]'}`}>Request Blood</Link>
 
             {/* Process Dropdown */}
             <div className="relative group">
-              <button className="px-4 py-2 rounded-xl text-sm font-semibold flex items-center gap-1 whitespace-nowrap text-neutral-600 hover:text-neutral-900 hover:bg-neutral-100 dark:text-neutral-400 dark:hover:text-white dark:hover:bg-neutral-800 transition-all">
+              <button className="text-sm font-semibold flex items-center gap-1 text-[#333333] hover:underline">
                 Blood Donation Process
-                <svg className="w-4 h-4 transition-transform group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" /></svg>
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" /></svg>
               </button>
-              <div className="absolute top-full right-0 mt-1 w-72 bg-white dark:bg-neutral-900 rounded-xl shadow-xl border border-neutral-200 dark:border-neutral-700 py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-                <Link href="/process" className="block px-4 py-2.5 text-sm font-medium text-neutral-600 hover:bg-neutral-50 hover:text-red-600 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:hover:text-red-400">
+              <div className="absolute top-full right-0 mt-1 w-72 bg-white border border-[#e0e0e0] py-2 hidden group-hover:block z-50">
+                <Link href="/process" className="block px-4 py-2 text-sm font-medium text-[#333333] hover:underline">
                   The Process Of Blood Donation
                 </Link>
-                <Link href="/post-donation" className="block px-4 py-2.5 text-sm font-medium text-neutral-600 hover:bg-neutral-50 hover:text-red-600 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:hover:text-red-400">
+                <Link href="/post-donation" className="block px-4 py-2 text-sm font-medium text-[#333333] hover:underline">
                   What Happens To Post You Donate Your Blood
                 </Link>
-                <Link href="/pursuit" className="block px-4 py-2.5 text-sm font-medium text-neutral-600 hover:bg-neutral-50 hover:text-red-600 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:hover:text-red-400">
+                <Link href="/pursuit" className="block px-4 py-2 text-sm font-medium text-[#333333] hover:underline">
                   Pre And Post Pursuit Of Blood Donation
                 </Link>
               </div>
             </div>
           </div>
 
-          {/* Auth + Theme Actions */}
-          <div className="hidden xl:flex items-center gap-2">
-            {/* Theme Toggle */}
-            <div className="relative">
-              <button
-                onClick={(e) => { e.stopPropagation(); setThemeMenuOpen(!themeMenuOpen); }}
-                className="p-2.5 rounded-xl text-neutral-500 hover:text-neutral-900 hover:bg-neutral-100 dark:text-neutral-400 dark:hover:text-white dark:hover:bg-neutral-800 transition-all"
-                aria-label="Toggle theme"
-                title={`Theme: ${theme}`}
-              >
-                {currentIcon}
-              </button>
-
-              {themeMenuOpen && (
-                <div className="absolute right-0 mt-2 w-40 bg-white dark:bg-neutral-900 rounded-xl shadow-xl border border-neutral-200 dark:border-neutral-700 py-1 animate-scale-in z-50" onClick={(e) => e.stopPropagation()}>
-                  {[
-                    { key: 'light' as const, label: 'Light', icon: <SunIcon /> },
-                    { key: 'dark' as const, label: 'Dark', icon: <MoonIcon /> },
-                    { key: 'system' as const, label: 'System', icon: <MonitorIcon /> },
-                  ].map(opt => (
-                    <button
-                      key={opt.key}
-                      onClick={() => { setTheme(opt.key); setThemeMenuOpen(false); }}
-                      className={`w-full flex items-center gap-3 px-4 py-2.5 text-sm font-semibold transition-all ${
-                        theme === opt.key
-                          ? 'text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-500/10'
-                          : 'text-neutral-600 dark:text-neutral-400 hover:bg-neutral-50 dark:hover:bg-neutral-800'
-                      }`}
-                    >
-                      <span className="opacity-70">{opt.icon}</span>
-                      {opt.label}
-                      {theme === opt.key && (
-                        <svg className="w-4 h-4 ml-auto text-red-500" fill="currentColor" viewBox="0 0 20 20">
-                          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
-                        </svg>
-                      )}
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
-
-            {/* Divider */}
-            <div className="w-px h-6 bg-neutral-200 dark:bg-neutral-700 mx-1"></div>
-
+          {/* Auth Actions */}
+          <div className="hidden xl:flex items-center gap-4">
             {user ? (
               <>
-                <Link
-                  href="/chat"
-                  className="px-4 py-2 rounded-xl text-sm font-semibold text-neutral-600 hover:text-neutral-900 hover:bg-neutral-100 dark:text-neutral-400 dark:hover:text-white dark:hover:bg-neutral-800 transition-all"
-                >
-                  Chats
-                </Link>
-                <Link
-                  href="/profile"
-                  className="px-4 py-2 rounded-xl text-sm font-semibold text-neutral-600 hover:text-neutral-900 hover:bg-neutral-100 dark:text-neutral-400 dark:hover:text-white dark:hover:bg-neutral-800 transition-all"
-                >
-                  Profile
-                </Link>
-                <button
-                  onClick={handleLogout}
-                  className="px-4 py-2 rounded-xl text-sm font-semibold text-red-600 hover:bg-red-50 dark:hover:bg-red-500/10 transition-all"
-                >
-                  Logout
-                </button>
+                <Link href="/chat" className="text-sm font-semibold text-[#333333] hover:underline">Chats</Link>
+                <Link href="/profile" className="text-sm font-semibold text-[#333333] hover:underline">Profile</Link>
+                <button onClick={handleLogout} className="text-sm font-semibold text-[#cc0000] hover:underline">Logout</button>
               </>
             ) : (
               <>
-                <Link
-                  href="/login"
-                  className="px-4 py-2 rounded-xl text-sm font-semibold text-neutral-600 hover:text-neutral-900 hover:bg-neutral-100 dark:text-neutral-400 dark:hover:text-white dark:hover:bg-neutral-800 transition-all"
-                >
-                  Login
-                </Link>
-                <Link
-                  href="/login?mode=register"
-                  className="px-5 py-2.5 bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-400 text-white rounded-xl text-sm font-bold shadow-lg shadow-red-500/20 hover:shadow-red-500/30 transition-all active:scale-[0.97]"
-                >
+                <Link href="/login" className="text-sm font-semibold text-[#333333] hover:underline">Login</Link>
+                <Link href="/login?mode=register" className="px-6 py-2 bg-[#cc0000] hover:bg-[#aa0000] text-white rounded-[4px] text-sm font-bold">
                   Register as Donor
                 </Link>
               </>
             )}
           </div>
 
-          {/* Mobile: Theme + Menu Toggle */}
-          <div className="flex xl:hidden items-center gap-1">
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                // Quick cycle: light → dark → system → light
-                const next = theme === 'light' ? 'dark' : theme === 'dark' ? 'system' : 'light';
-                setTheme(next);
-              }}
-              className="p-2 rounded-xl text-neutral-600 hover:bg-neutral-100 dark:text-neutral-400 dark:hover:bg-neutral-800 transition-all"
-              aria-label="Toggle theme"
-            >
-              {theme === 'system' ? <MonitorIcon /> : currentIcon}
-            </button>
-            <button
-              onClick={() => setMenuOpen(!menuOpen)}
-              className="p-2 rounded-xl text-neutral-600 hover:bg-neutral-100 dark:text-neutral-400 dark:hover:bg-neutral-800 transition-all"
-              aria-label="Toggle menu"
-            >
+          {/* Mobile Menu Toggle */}
+          <div className="flex xl:hidden items-center">
+            <button onClick={() => setMenuOpen(!menuOpen)} className="p-2 text-[#333333]" aria-label="Toggle menu">
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 {menuOpen ? (
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -259,70 +123,44 @@ export default function Navbar() {
 
       {/* Mobile Menu */}
       {menuOpen && (
-        <div className="xl:hidden glass-strong border-t border-neutral-200/50 dark:border-neutral-800/50 animate-fade-in">
+        <div className="xl:hidden bg-white border-t border-[#e0e0e0]">
           <div className="px-4 py-3 space-y-1">
-            {/* Mobile Nav Links */}
-            <Link href="/search" onClick={() => setMenuOpen(false)} className={`block px-4 py-3 rounded-xl text-base font-semibold transition-all ${isActive('/search') ? 'bg-red-600 text-white shadow-md shadow-red-500/20' : 'text-neutral-600 hover:bg-neutral-100 dark:text-neutral-300 dark:hover:bg-neutral-800'}`}>Find Donors</Link>
-            <Link href="/blood-banks" onClick={() => setMenuOpen(false)} className={`block px-4 py-3 rounded-xl text-base font-semibold transition-all ${isActive('/blood-banks') ? 'bg-indigo-600 text-white shadow-md shadow-indigo-500/20' : 'text-neutral-600 hover:bg-neutral-100 dark:text-neutral-300 dark:hover:bg-neutral-800'}`}>Blood Banks</Link>
+            <Link href="/search" onClick={() => setMenuOpen(false)} className={`block px-4 py-3 text-base font-semibold ${isActive('/search') ? 'text-[#cc0000]' : 'text-[#333333]'}`}>Find Donors</Link>
+            <Link href="/blood-banks" onClick={() => setMenuOpen(false)} className={`block px-4 py-3 text-base font-semibold ${isActive('/blood-banks') ? 'text-[#cc0000]' : 'text-[#333333]'}`}>Blood Banks</Link>
 
-            {/* Mobile Blood Camps Dropdown */}
-            <div className="px-4 py-2">
-              <div className="text-xs font-bold text-[#a31526] dark:text-red-500 uppercase tracking-wider mb-2">Blood Camps</div>
-              <div className="flex flex-col space-y-1 pl-2 border-l-2 border-neutral-200 dark:border-neutral-800">
-                  <Link href="/camps" onClick={() => setMenuOpen(false)} className="block px-4 py-2 rounded-lg text-sm font-semibold text-[#002855] hover:bg-neutral-100 dark:text-neutral-300 dark:hover:bg-neutral-800">Find Blood Camps</Link>
-                  <Link href="/camps/register" onClick={() => setMenuOpen(false)} className="block px-4 py-2 rounded-lg text-sm font-semibold text-[#002855] hover:bg-neutral-100 dark:text-neutral-300 dark:hover:bg-neutral-800">Register Blood Camps</Link>
+            <div className="px-4 py-2 border-b border-[#e0e0e0]">
+              <div className="text-sm font-bold text-[#333333] mb-2">Blood Camps</div>
+              <div className="flex flex-col space-y-2 pl-2">
+                <Link href="/camps" onClick={() => setMenuOpen(false)} className="block text-sm text-[#666666]">Find Blood Camps</Link>
+                <Link href="/camps/register" onClick={() => setMenuOpen(false)} className="block text-sm text-[#666666]">Register Blood Camps</Link>
               </div>
             </div>
 
-            <Link href="/request" onClick={() => setMenuOpen(false)} className={`block px-4 py-3 rounded-xl text-base font-semibold transition-all ${isActive('/request') ? 'bg-red-900 text-white shadow-md shadow-red-900/20' : 'text-neutral-600 hover:bg-neutral-100 dark:text-neutral-300 dark:hover:bg-neutral-800'}`}>Request Blood</Link>
-            {/* Mobile Dropdown Items */}
-            <div className="px-4 py-2">
-              <div className="text-xs font-bold text-neutral-400 uppercase tracking-wider mb-2">Blood Donation Process</div>
-              <div className="flex flex-col space-y-1 pl-2 border-l-2 border-neutral-200 dark:border-neutral-800">
-                  <Link href="/process" onClick={() => setMenuOpen(false)} className="block px-4 py-2 rounded-lg text-sm font-medium text-neutral-600 hover:bg-neutral-100 dark:text-neutral-400 dark:hover:bg-neutral-800">The Process Of Blood Donation</Link>
-                  <Link href="/post-donation" onClick={() => setMenuOpen(false)} className="block px-4 py-2 rounded-lg text-sm font-medium text-neutral-600 hover:bg-neutral-100 dark:text-neutral-400 dark:hover:bg-neutral-800">What Happens To Post You Donate Your Blood</Link>
-                  <Link href="/pursuit" onClick={() => setMenuOpen(false)} className="block px-4 py-2 rounded-lg text-sm font-medium text-neutral-600 hover:bg-neutral-100 dark:text-neutral-400 dark:hover:bg-neutral-800">Pre And Post Pursuit Of Blood Donation</Link>
+            <Link href="/request" onClick={() => setMenuOpen(false)} className={`block px-4 py-3 text-base font-semibold ${isActive('/request') ? 'text-[#cc0000]' : 'text-[#333333]'}`}>Request Blood</Link>
+            
+            <div className="px-4 py-2 border-b border-[#e0e0e0]">
+              <div className="text-sm font-bold text-[#333333] mb-2">Blood Donation Process</div>
+              <div className="flex flex-col space-y-2 pl-2">
+                <Link href="/process" onClick={() => setMenuOpen(false)} className="block text-sm text-[#666666]">The Process Of Blood Donation</Link>
+                <Link href="/post-donation" onClick={() => setMenuOpen(false)} className="block text-sm text-[#666666]">What Happens To Post You Donate Your Blood</Link>
+                <Link href="/pursuit" onClick={() => setMenuOpen(false)} className="block text-sm text-[#666666]">Pre And Post Pursuit Of Blood Donation</Link>
               </div>
             </div>
 
-            {/* Mobile Theme Selector */}
-            <div className="px-4 py-3">
-              <p className="text-xs font-semibold text-neutral-400 uppercase tracking-wider mb-2">Theme</p>
-              <div className="flex gap-2">
-                {[
-                  { key: 'light' as const, label: 'Light', icon: <SunIcon /> },
-                  { key: 'dark' as const, label: 'Dark', icon: <MoonIcon /> },
-                  { key: 'system' as const, label: 'Auto', icon: <MonitorIcon /> },
-                ].map(opt => (
-                  <button
-                    key={opt.key}
-                    onClick={() => setTheme(opt.key)}
-                    className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-xs font-bold transition-all ${
-                      theme === opt.key
-                        ? 'bg-red-50 text-red-600 dark:bg-red-500/10 dark:text-red-400 border border-red-200 dark:border-red-500/20'
-                        : 'bg-neutral-100 dark:bg-neutral-800 text-neutral-500 dark:text-neutral-400 border border-transparent'
-                    }`}
-                  >
-                    {opt.icon}
-                    {opt.label}
-                  </button>
-                ))}
-              </div>
+            <div className="pt-2">
+              {user ? (
+                <>
+                  <Link href="/chat" onClick={() => setMenuOpen(false)} className="block px-4 py-3 text-sm font-semibold text-[#333333]">Chats</Link>
+                  <Link href="/profile" onClick={() => setMenuOpen(false)} className="block px-4 py-3 text-sm font-semibold text-[#333333]">Profile</Link>
+                  <button onClick={() => { handleLogout(); setMenuOpen(false); }} className="w-full text-left px-4 py-3 text-sm font-semibold text-[#cc0000]">Logout</button>
+                </>
+              ) : (
+                <>
+                  <Link href="/login" onClick={() => setMenuOpen(false)} className="block px-4 py-3 text-sm font-semibold text-[#333333]">Login</Link>
+                  <Link href="/login?mode=register" onClick={() => setMenuOpen(false)} className="block px-4 py-3 mt-2 text-sm font-bold text-white bg-[#cc0000] text-center rounded-[4px]">Register as Donor</Link>
+                </>
+              )}
             </div>
-
-            <hr className="border-neutral-200 dark:border-neutral-800 my-2" />
-            {user ? (
-              <>
-                <Link href="/chat" onClick={() => setMenuOpen(false)} className="block px-4 py-3 rounded-xl text-sm font-semibold text-neutral-600 hover:bg-neutral-100 dark:text-neutral-400 dark:hover:bg-neutral-800">Chats</Link>
-                <Link href="/profile" onClick={() => setMenuOpen(false)} className="block px-4 py-3 rounded-xl text-sm font-semibold text-neutral-600 hover:bg-neutral-100 dark:text-neutral-400 dark:hover:bg-neutral-800">Profile</Link>
-                <button onClick={() => { handleLogout(); setMenuOpen(false); }} className="w-full text-left px-4 py-3 rounded-xl text-sm font-semibold text-red-600 hover:bg-red-50 dark:hover:bg-red-500/10">Logout</button>
-              </>
-            ) : (
-              <>
-                <Link href="/login" onClick={() => setMenuOpen(false)} className="block px-4 py-3 rounded-xl text-sm font-semibold text-neutral-600 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 text-center">Login</Link>
-                <Link href="/login?mode=register" onClick={() => setMenuOpen(false)} className="block px-4 py-3 rounded-xl text-sm font-bold text-white bg-gradient-to-r from-red-600 to-red-500 text-center">Register as Donor</Link>
-              </>
-            )}
           </div>
         </div>
       )}

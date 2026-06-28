@@ -42,7 +42,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             </div>
             <div>
               <h1 className="text-lg font-bold text-neutral-900 dark:text-white">Admin Dashboard</h1>
-              <p className="text-xs text-neutral-500">BloodSync Management</p>
+              <p className="text-xs text-neutral-500">B-Sync Management</p>
             </div>
           </div>
           <button onClick={() => router.push('/')} className="px-4 py-2 text-sm font-semibold text-neutral-600 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded-xl transition-all">

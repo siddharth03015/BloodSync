@@ -2,43 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
-
 :root {
   /* Primary palette */
-  --primary: #dc2626;
-  --primary-dark: #991b1b;
-  --primary-light: #fecaca;
-  --primary-50: #fef2f2;
-
-  /* Neutral palette */
-  --bg: #fafafa;
-  --bg-card: #ffffff;
-  --text: #171717;
-  --text-muted: #737373;
-  --border: #e5e5e5;
-
-  /* Accent */
-  --accent: #4f46e5;
-  --success: #16a34a;
-  --warning: #ea580c;
-  --critical: #dc2626;
-
-  /* Glassmorphism */
-  --glass-bg: rgba(255, 255, 255, 0.7);
-  --glass-border: rgba(255, 255, 255, 0.3);
-  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
-}
-
-.dark {
-  --bg: #0a0a0a;
-  --bg-card: #171717;
-  --text: #fafafa;
-  --text-muted: #a3a3a3;
-  --border: #262626;
-  --glass-bg: rgba(23, 23, 23, 0.85);
-  --glass-border: rgba(255, 255, 255, 0.08);
-  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  --primary: #cc0000;
+  --bg: #ffffff;
+  --text: #333333;
+  --text-muted: #666666;
+  --border: #e0e0e0;
 }
 
 * {
@@ -48,106 +18,9 @@
 body {
   color: var(--text);
   background: var(--bg);
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-family: system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-/* ─── Animations ─────────────────────────────────────────── */
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(12px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes slideUp {
-  from { opacity: 0; transform: translateY(24px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes scaleIn {
-  from { opacity: 0; transform: scale(0.95); }
-  to { opacity: 1; transform: scale(1); }
-}
-
-@keyframes pulse-soft {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.7; }
-}
-
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-6px); }
-}
-
-@keyframes shimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
-}
-
-@layer utilities {
-  .animate-fade-in {
-    animation: fadeIn 0.5s ease-out both;
-  }
-  .animate-slide-up {
-    animation: slideUp 0.6s ease-out both;
-  }
-  .animate-scale-in {
-    animation: scaleIn 0.4s ease-out both;
-  }
-  .animate-pulse-soft {
-    animation: pulse-soft 2s ease-in-out infinite;
-  }
-  .animate-float {
-    animation: float 3s ease-in-out infinite;
-  }
-
-  .glass {
-    background: var(--glass-bg);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid var(--glass-border);
-    box-shadow: var(--glass-shadow);
-  }
-
-  .glass-strong {
-    background: var(--glass-bg);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
-    border: 1px solid var(--glass-border);
-    box-shadow: var(--glass-shadow);
-  }
-
-  .text-gradient {
-    background: linear-gradient(135deg, #dc2626, #f97316);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  .text-gradient-hero {
-    background: linear-gradient(135deg, #ffffff, #fecaca);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  .bg-mesh {
-    background-image: 
-      radial-gradient(at 40% 20%, #fecaca33 0px, transparent 50%),
-      radial-gradient(at 80% 0%, #fee2e233 0px, transparent 50%),
-      radial-gradient(at 0% 50%, #fecdd333 0px, transparent 50%);
-  }
-
-  .text-balance {
-    text-wrap: balance;
-  }
-
-  .delay-100 { animation-delay: 100ms; }
-  .delay-200 { animation-delay: 200ms; }
-  .delay-300 { animation-delay: 300ms; }
-  .delay-400 { animation-delay: 400ms; }
-  .delay-500 { animation-delay: 500ms; }
 }
 
 /* ─── Scrollbar ──────────────────────────────────────────── */

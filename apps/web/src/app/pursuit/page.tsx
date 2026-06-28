@@ -1,7 +1,7 @@
 import FallbackImage from '../components/FallbackImage';
 
 export const metadata = {
-  title: 'Pre and Post Process | BloodSync',
+  title: 'Pre and Post Process | B-Sync',
   description: 'Pre and post process for blood donation.',
 };
 

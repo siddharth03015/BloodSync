@@ -57,40 +57,40 @@ export default function RegisterCampPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#f3f9f5] dark:bg-neutral-950 pt-28 pb-20 font-sans">
+    <div className="min-h-screen bg-[#f9f9f9] pt-28 pb-20 font-sans text-[#333333]">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        <div className="mb-10 text-center md:text-left">
-          <h1 className="text-4xl font-black text-[#1b4332] dark:text-emerald-50 mb-3 tracking-tight">Register Blood Camp</h1>
-          <p className="text-lg text-[#2d6a4f] dark:text-emerald-200/80 font-medium">Fill out the details below to register a new blood donation camp.</p>
+        <div className="mb-10 text-center">
+          <h1 className="text-4xl font-bold text-[#333333] mb-4">Register Blood Camp</h1>
+          <p className="text-lg text-[#666666]">Fill out the details below to register a new blood donation camp.</p>
         </div>
 
-        <div className="bg-white dark:bg-neutral-900 shadow-2xl shadow-emerald-900/5 rounded-2xl border border-neutral-100 dark:border-neutral-800 p-6 md:p-10">
+        <div className="bg-[#ffffff] border border-[#e0e0e0] rounded-[4px] p-6 md:p-10">
           <form onSubmit={handleSubmit} className="space-y-6">
             
             {/* Blood Camp Name */}
             <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-8">
-              <label className="md:w-1/3 text-sm font-bold text-slate-800 dark:text-slate-200">
-                Blood Camp Name <span className="text-red-500">*</span>
+              <label className="md:w-1/3 text-sm font-bold text-[#333333]">
+                Blood Camp Name <span className="text-[#cc0000]">*</span>
               </label>
               <div className="md:w-2/3">
-                <input required type="text" name="title" value={formData.title} onChange={handleChange} placeholder="Blood Camp Name" className="w-full px-4 py-3 rounded-xl border border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-800 text-slate-900 dark:text-white placeholder:text-slate-400 focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 outline-none transition-all" />
+                <input required type="text" name="title" value={formData.title} onChange={handleChange} placeholder="Blood Camp Name" className="w-full px-4 py-3 rounded-[4px] border border-[#e0e0e0] bg-[#ffffff] text-[#333333] placeholder-[#aaaaaa] focus:outline-none focus:border-[#cc0000] transition-colors" />
               </div>
             </div>
 
             {/* Camp Code */}
             <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-8">
-              <label className="md:w-1/3 text-sm font-bold text-slate-800 dark:text-slate-200">
-                Camp Code <span className="text-red-500">*</span>
+              <label className="md:w-1/3 text-sm font-bold text-[#333333]">
+                Camp Code <span className="text-[#cc0000]">*</span>
               </label>
               <div className="md:w-2/3 relative">
-                <select required name="campCode" value={formData.campCode} onChange={handleChange} className="w-full px-4 py-3 rounded-xl border border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-800 text-slate-700 dark:text-slate-300 focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 outline-none transition-all appearance-none cursor-pointer">
+                <select required name="campCode" value={formData.campCode} onChange={handleChange} className="w-full px-4 py-3 rounded-[4px] border border-[#e0e0e0] bg-[#ffffff] text-[#333333] focus:outline-none focus:border-[#cc0000] transition-colors appearance-none cursor-pointer">
                   <option value="Festival">Festival</option>
                   <option value="Corporate">Corporate</option>
                   <option value="Community">Community</option>
                   <option value="College">College</option>
                 </select>
-                <div className="absolute inset-y-0 right-0 flex items-center px-4 pointer-events-none text-slate-500">
+                <div className="absolute inset-y-0 right-0 flex items-center px-4 pointer-events-none text-[#666666]">
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" /></svg>
                 </div>
               </div>
@@ -98,81 +98,81 @@ export default function RegisterCampPage() {
 
             {/* Start Date */}
             <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-8">
-              <label className="md:w-1/3 text-sm font-bold text-slate-800 dark:text-slate-200">
-                Start Date <span className="text-red-500">*</span>
+              <label className="md:w-1/3 text-sm font-bold text-[#333333]">
+                Start Date <span className="text-[#cc0000]">*</span>
               </label>
               <div className="md:w-2/3">
-                <input required type="datetime-local" name="date_start" value={formData.date_start} onChange={handleChange} className="w-full px-4 py-3 rounded-xl border border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-800 text-slate-700 dark:text-slate-300 focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 outline-none transition-all cursor-pointer" />
+                <input required type="datetime-local" name="date_start" value={formData.date_start} onChange={handleChange} className="w-full px-4 py-3 rounded-[4px] border border-[#e0e0e0] bg-[#ffffff] text-[#333333] focus:outline-none focus:border-[#cc0000] transition-colors cursor-pointer" />
               </div>
             </div>
 
             {/* End Date */}
             <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-8">
-              <label className="md:w-1/3 text-sm font-bold text-slate-800 dark:text-slate-200">
-                End Date <span className="text-red-500">*</span>
+              <label className="md:w-1/3 text-sm font-bold text-[#333333]">
+                End Date <span className="text-[#cc0000]">*</span>
               </label>
               <div className="md:w-2/3">
-                <input required type="datetime-local" name="date_end" value={formData.date_end} onChange={handleChange} className="w-full px-4 py-3 rounded-xl border border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-800 text-slate-700 dark:text-slate-300 focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 outline-none transition-all cursor-pointer" />
+                <input required type="datetime-local" name="date_end" value={formData.date_end} onChange={handleChange} className="w-full px-4 py-3 rounded-[4px] border border-[#e0e0e0] bg-[#ffffff] text-[#333333] focus:outline-none focus:border-[#cc0000] transition-colors cursor-pointer" />
               </div>
             </div>
 
             {/* Venue */}
             <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-8">
-              <label className="md:w-1/3 text-sm font-bold text-slate-800 dark:text-slate-200">
-                Venue <span className="text-red-500">*</span>
+              <label className="md:w-1/3 text-sm font-bold text-[#333333]">
+                Venue <span className="text-[#cc0000]">*</span>
               </label>
               <div className="md:w-2/3">
-                <input required type="text" name="venue" value={formData.venue} onChange={handleChange} placeholder="Enter Venue" className="w-full px-4 py-3 rounded-xl border border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-800 text-slate-900 dark:text-white placeholder:text-slate-400 focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 outline-none transition-all" />
+                <input required type="text" name="venue" value={formData.venue} onChange={handleChange} placeholder="Enter Venue" className="w-full px-4 py-3 rounded-[4px] border border-[#e0e0e0] bg-[#ffffff] text-[#333333] placeholder-[#aaaaaa] focus:outline-none focus:border-[#cc0000] transition-colors" />
               </div>
             </div>
 
             {/* Sponsored By */}
             <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-8">
-              <label className="md:w-1/3 text-sm font-bold text-slate-800 dark:text-slate-200">
-                Sponsored By <span className="text-red-500">*</span>
+              <label className="md:w-1/3 text-sm font-bold text-[#333333]">
+                Sponsored By <span className="text-[#cc0000]">*</span>
               </label>
               <div className="md:w-2/3">
-                <input required type="text" name="organizer_name" value={formData.organizer_name} onChange={handleChange} placeholder="Enter Sponsored By" className="w-full px-4 py-3 rounded-xl border border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-800 text-slate-900 dark:text-white placeholder:text-slate-400 focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 outline-none transition-all" />
+                <input required type="text" name="organizer_name" value={formData.organizer_name} onChange={handleChange} placeholder="Enter Sponsored By" className="w-full px-4 py-3 rounded-[4px] border border-[#e0e0e0] bg-[#ffffff] text-[#333333] placeholder-[#aaaaaa] focus:outline-none focus:border-[#cc0000] transition-colors" />
               </div>
             </div>
 
             {/* Address */}
             <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-8">
-              <label className="md:w-1/3 text-sm font-bold text-slate-800 dark:text-slate-200">
-                Address (City) <span className="text-red-500">*</span>
+              <label className="md:w-1/3 text-sm font-bold text-[#333333]">
+                Address (City) <span className="text-[#cc0000]">*</span>
               </label>
               <div className="md:w-2/3">
-                <input required type="text" name="address" value={formData.address} onChange={handleChange} placeholder="Enter Address (City)" className="w-full px-4 py-3 rounded-xl border border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-800 text-slate-900 dark:text-white placeholder:text-slate-400 focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 outline-none transition-all" />
+                <input required type="text" name="address" value={formData.address} onChange={handleChange} placeholder="Enter Address (City)" className="w-full px-4 py-3 rounded-[4px] border border-[#e0e0e0] bg-[#ffffff] text-[#333333] placeholder-[#aaaaaa] focus:outline-none focus:border-[#cc0000] transition-colors" />
               </div>
             </div>
 
             {/* Contact No. */}
             <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-8">
-              <label className="md:w-1/3 text-sm font-bold text-slate-800 dark:text-slate-200">
-                Contact No. <span className="text-red-500">*</span>
+              <label className="md:w-1/3 text-sm font-bold text-[#333333]">
+                Contact No. <span className="text-[#cc0000]">*</span>
               </label>
               <div className="md:w-2/3">
-                <input required type="tel" name="contact_phone" value={formData.contact_phone} onChange={handleChange} placeholder="Enter Contact No." className="w-full px-4 py-3 rounded-xl border border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-800 text-slate-900 dark:text-white placeholder:text-slate-400 focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 outline-none transition-all" />
+                <input required type="tel" name="contact_phone" value={formData.contact_phone} onChange={handleChange} placeholder="Enter Contact No." className="w-full px-4 py-3 rounded-[4px] border border-[#e0e0e0] bg-[#ffffff] text-[#333333] placeholder-[#aaaaaa] focus:outline-none focus:border-[#cc0000] transition-colors" />
               </div>
             </div>
 
             {/* Latitude */}
             <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-8">
-              <label className="md:w-1/3 text-sm font-bold text-slate-800 dark:text-slate-200">
-                Latitude <span className="text-red-500">*</span>
+              <label className="md:w-1/3 text-sm font-bold text-[#333333]">
+                Latitude <span className="text-[#cc0000]">*</span>
               </label>
               <div className="md:w-2/3">
-                <input required type="number" step="any" name="lat" value={formData.lat} onChange={handleChange} placeholder="Enter Latitude" className="w-full px-4 py-3 rounded-xl border border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-800 text-slate-900 dark:text-white placeholder:text-slate-400 focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 outline-none transition-all" />
+                <input required type="number" step="any" name="lat" value={formData.lat} onChange={handleChange} placeholder="Enter Latitude" className="w-full px-4 py-3 rounded-[4px] border border-[#e0e0e0] bg-[#ffffff] text-[#333333] placeholder-[#aaaaaa] focus:outline-none focus:border-[#cc0000] transition-colors" />
               </div>
             </div>
 
             {/* Longitude */}
             <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-8">
-              <label className="md:w-1/3 text-sm font-bold text-slate-800 dark:text-slate-200">
-                Longitude <span className="text-red-500">*</span>
+              <label className="md:w-1/3 text-sm font-bold text-[#333333]">
+                Longitude <span className="text-[#cc0000]">*</span>
               </label>
               <div className="md:w-2/3">
-                <input required type="number" step="any" name="lng" value={formData.lng} onChange={handleChange} placeholder="Enter Longitude" className="w-full px-4 py-3 rounded-xl border border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-800 text-slate-900 dark:text-white placeholder:text-slate-400 focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 outline-none transition-all" />
+                <input required type="number" step="any" name="lng" value={formData.lng} onChange={handleChange} placeholder="Enter Longitude" className="w-full px-4 py-3 rounded-[4px] border border-[#e0e0e0] bg-[#ffffff] text-[#333333] placeholder-[#aaaaaa] focus:outline-none focus:border-[#cc0000] transition-colors" />
               </div>
             </div>
 
@@ -181,7 +181,7 @@ export default function RegisterCampPage() {
               <button 
                 type="submit" 
                 disabled={loading}
-                className="w-full md:w-auto px-8 py-3 bg-emerald-600 hover:bg-emerald-700 disabled:opacity-70 disabled:cursor-not-allowed text-white font-bold rounded-xl shadow-md shadow-emerald-600/20 transition-all"
+                className="w-full md:w-auto px-8 py-3 bg-[#cc0000] hover:bg-[#aa0000] disabled:opacity-70 text-white font-bold rounded-[4px] transition-colors"
               >
                 {loading ? 'Submitting...' : 'Register Camp'}
               </button>

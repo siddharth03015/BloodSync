@@ -2,7 +2,7 @@ import Link from 'next/link';
 import FallbackImage from '../components/FallbackImage';
 
 export const metadata = {
-  title: 'Blood Donation Process | BloodSync',
+  title: 'Blood Donation Process | B-Sync',
   description: 'Learn about the step-by-step blood donation process.',
 };
 
