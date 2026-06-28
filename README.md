@@ -28,6 +28,25 @@ This project was engineered with a focus on speed, modern UI/UX, and scalability
 
 ---
 
+## 📂 Project Structure
+
+The codebase is organized as a Turborepo monorepo, separating frontend, mobile, and shared logic.
+
+```text
+B-Sync/
+├── apps/
+│   ├── web/           # Next.js 14 Web Application
+│   └── mobile/        # Expo / React Native Mobile Application
+├── packages/
+│   └── shared/        # Shared Types, DB Schema, and Utils
+├── supabase/
+│   └── migrations/    # Database schema & RLS policies
+├── package.json       # Turborepo / NPM Workspaces root
+└── README.md
+```
+
+---
+
 ## 🛠️ Technology Stack
 
 This application is built using a modern, scalable tech stack suitable for enterprise-level applications:
@@ -38,13 +57,20 @@ This application is built using a modern, scalable tech stack suitable for enter
 * **Tailwind CSS:** Utility-first CSS framework used for rapid, fully responsive, and deeply customized styling (including custom themes and animations).
 * **TypeScript:** For strict type-checking, reducing runtime errors, and improving code maintainability.
 
-### Backend & Database
-* **Supabase:** Open-source Firebase alternative used for the entire backend infrastructure.
+### Backend Used
+* **Supabase (Backend-as-a-Service):** Open-source Firebase alternative used for the entire backend infrastructure.
 * **PostgreSQL:** The core database.
 * **PostGIS Extension:** Used to calculate precise distances (in meters) between coordinates (`ST_Distance`, `ST_DWithin`) via an optimized RPC (`search_donors_nearby`).
 * **Supabase Realtime:** Powers the live chat system using WebSockets.
 * **Supabase Auth:** Handles secure user authentication and session management.
 * **Row Level Security (RLS):** Strictly enforced database security rules ensuring users can only edit their own messages and profiles, while safely exposing public profiles for the search ecosystem.
+
+### APIs Used
+* **Supabase PostgREST API:** For standard CRUD operations on the PostgreSQL database from the frontend.
+* **Supabase RPC API:** Remote Procedure Calls for invoking custom PostgreSQL functions (e.g., `search_donors_nearby` for geospatial distance matching).
+* **Supabase Realtime WebSockets API:** For broadcasting and subscribing to live chat messages.
+* **Expo Location API:** Utilized in the mobile app to retrieve precise GPS coordinates for proximity searches.
+* **Browser Geolocation API (HTML5):** Used on the Next.js web client to seamlessly request and access the user's current location.
 
 ### Architecture
 * **Turborepo / NPM Workspaces:** Configured as a monorepo containing `apps/web` (Next.js frontend), `apps/mobile` (React Native/Expo), and `packages/shared` (Database schema, TypeScript interfaces, and shared utility functions).
